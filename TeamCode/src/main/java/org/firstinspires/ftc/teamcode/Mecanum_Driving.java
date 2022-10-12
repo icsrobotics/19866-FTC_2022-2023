@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 
@@ -12,15 +14,24 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 @Config
 @TeleOp(name = "Mecanum Driving", group = "Linear Opmode")
-
 public class Mecanum_Driving extends LinearOpMode {
 
-    Robot_Hardware robot = new Robot_Hardware();
+    public DcMotor frontLeft = null;
+    public DcMotor frontRight = null;
+    public DcMotor backRight = null;
+    public DcMotor backLeft = null;
 
     @Override public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
 
+        backLeft = hardwareMap.dcMotor.get("Back_Left");
+        backRight = hardwareMap.dcMotor.get("Back_Right");
+        frontRight = hardwareMap.dcMotor.get("Front_Right");
+        frontLeft = hardwareMap.dcMotor.get("Front_Left");
+
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
@@ -35,10 +46,10 @@ public class Mecanum_Driving extends LinearOpMode {
             double frontRightPower = (y - x - rx) / denominator;
             double backRightPower = (y + x - rx) / denominator;
 
-            robot.frontLeft.setPower(frontLeftPower);
-            robot.backLeft.setPower(backLeftPower);
-            robot.backRight.setPower(frontRightPower);
-            robot.frontRight.setPower(backRightPower);
+            frontLeft.setPower(frontLeftPower);
+            backLeft.setPower(backLeftPower);
+            backRight.setPower(frontRightPower);
+            frontRight.setPower(backRightPower);
 
 
 
