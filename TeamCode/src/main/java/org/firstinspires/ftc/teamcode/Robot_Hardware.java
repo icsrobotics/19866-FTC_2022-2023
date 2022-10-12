@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -37,10 +39,10 @@ public class Robot_Hardware {
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        frontLeft = hwMap.get(DcMotor.class, "Front_Left");
-        backLeft = hwMap.get(DcMotor.class, "Back_Left");
-        frontRight = hwMap.get(DcMotor.class, "Front_Right");
-        backRight = hwMap.get(DcMotor.class, "Back_Right");
+        DcMotor backLeft = hardwareMap.dcMotor.get("Back_Left");
+        DcMotor backRight = hardwareMap.dcMotor.get("Back_Right");
+        DcMotor frontRight = hardwareMap.dcMotor.get("Front_Right");
+        DcMotor frontLeft = hardwareMap.dcMotor.get("Front_Left");
 
         // Reverse motors
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
