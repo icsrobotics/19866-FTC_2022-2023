@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import java.net.HttpURLConnection;
+
 
 @Config
 @TeleOp(name = "Mecanum Driving", group = "Linear Opmode")
@@ -33,27 +35,54 @@ public class Mecanum_Driving extends LinearOpMode {
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        double drive;
+        float turnleft;
+        float turnright;
+        double left = 0;
+        double right = 0;
+        double max;
+
+        //wheel motor power
+        double wheelFrontRightPower = 0;
+        double wheelFrontLeftPower = 0;
+        double wheelBackRightPower = 0;
+        double wheelBackLeftPower = 0;
+
+        double turbo = 0.5;
+
         waitForStart();
 
         while (opModeIsActive()) {
-            double y = -gamepad1.left_stick_y; // Remember, this is reversed!
-            double x = gamepad1.left_stick_x * 1.1; // Counteract imperfect strafing
-            double rx = gamepad1.right_stick_x;
+            double y1 = gamepad1.left_stick_y;
+            double x1 = -gamepad1.left_stick_x;
+            double x2 = -gamepad1.right_stick_x;
+            wheelFrontRightPower = y1 - x2 - x1;
+            wheelBackRightPower = y1 - x2 + x1;
+            wheelFrontLeftPower = y1 + x2 + x1;
+            wheelBackLeftPower = y1 + x2 - x1;
 
-            double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
-            double frontLeftPower = (y + x + rx) / denominator;
-            double backLeftPower = (y - x + rx) / denominator;
-            double frontRightPower = (y - x - rx) / denominator;
-            double backRightPower = (y + x - rx) / denominator;
+            max = Math.max(Math.abs(wheelFrontRightPower), Math.max(Math.abs(wheelBackRightPower),
+                    Math.max(Math.abs(wheelFrontLeftPower), Math.abs(wheelBackLeftPower))));
 
-            frontLeft.setPower(frontLeftPower);
-            backLeft.setPower(backLeftPower);
-            backRight.setPower(frontRightPower);
-            frontRight.setPower(backRightPower);
+            if (max > 1.0)
+            {
+                wheelFrontRightPower /= max;
+                wheelBackRightPower  /= max;
+                wheelFrontLeftPower  /= max;
+                wheelBackLeftPower   /= max;
+            }
 
+            wheelFrontRightPower *= turbo;
+            wheelBackRightPower  *= turbo;
+            wheelFrontLeftPower  *= turbo;
+            wheelBackLeftPower   *= turbo;
 
-
+            frontRight.setPower(wheelFrontRightPower);
+            frontLeft.setPower(wheelFrontLeftPower);
+            backRight.setPower(wheelBackRightPower);
+            backLeft.setPower(wheelBackLeftPower);
         }
     }
 }
+
 

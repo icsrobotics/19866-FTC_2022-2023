@@ -20,8 +20,6 @@ public class Robot_Hardware {
     private DcMotor frontRight = null;
     private DcMotor frontLeft = null;
 
-
-
     // Define a constructor that allows the OpMode to pass a reference to itself.
     public Robot_Hardware (LinearOpMode opmode) {
         myOpMode = opmode;
