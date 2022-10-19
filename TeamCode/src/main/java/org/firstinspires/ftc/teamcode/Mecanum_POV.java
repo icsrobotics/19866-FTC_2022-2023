@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 
@@ -9,14 +7,11 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import java.net.HttpURLConnection;
 
 
 @Config
 @TeleOp(name = "Mecanum Driving", group = "Linear Opmode")
-public class Mecanum_Driving extends LinearOpMode {
+public class Mecanum_POV extends LinearOpMode {
 
     public DcMotor frontLeft = null;
     public DcMotor frontRight = null;
