@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+/* Refrenced code: https://github.com/DeltaRobotics-9351/SkyStone-Regional/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/hardware/MecanumWheels.java */
 
 @Config
 @TeleOp(name = "Mecanum Driving", group = "Linear Opmode")
