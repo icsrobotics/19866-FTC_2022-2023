@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 /* Refrenced code: https://github.com/DeltaRobotics-9351/SkyStone-Regional/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/hardware/MecanumWheels.java */
 
 @Config
-@TeleOp(name = "Mecanum Driving", group = "Linear Opmode")
+@TeleOp(name = "Mecanum Driving POV", group = "Linear Opmode")
 public class Mecanum_POV extends LinearOpMode {
 
     public DcMotor frontLeft = null;

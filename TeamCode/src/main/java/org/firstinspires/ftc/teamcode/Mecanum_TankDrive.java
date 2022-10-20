@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 @Config
-@TeleOp(name = "Mecanum Driving", group = "Linear Opmode")
+@TeleOp(name = "Mecanum Driving Tank Drive", group = "Linear Opmode")
 public class Mecanum_TankDrive extends LinearOpMode {
 
     public DcMotor frontLeft = null;
