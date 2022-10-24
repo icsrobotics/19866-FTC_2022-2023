@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import org.firstinspires.ftc.teamcode.RobotHardware;
 
 @Config
 @TeleOp(name = "Mecanum Driving Tank Drive", group = "Linear Opmode")
@@ -23,6 +24,7 @@ public class Mecanum_TankDrive extends LinearOpMode {
     final double MAX_POWER = 0.7;
 
     public void runOpMode() {
+        waitForStart();
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
 
@@ -33,7 +35,6 @@ public class Mecanum_TankDrive extends LinearOpMode {
 
         frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        waitForStart();
 
         while (opModeIsActive()) {
             // Run wheels in tank mode (note: The joystick goes negative when pushed forward, so negate it)
