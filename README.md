@@ -1,9 +1,9 @@
 # About
 This is the programming repository of FTC Team #19866. This repository contains all Autonomous and TeleOp Opmodes. 
-Owner of repository is @programming-programmer. 
+Owner of repository is @icsrobotics. For any questions, contact this account or @programming-programmer. Have a great day :)
 
 # How to clone this repository
-❗***If you want to push to the master branch, contact @programming-programmer to add you as a collaborator. Only then can you proceed with the following.***
+❗***If you want to push to the master branch, contact @programming-programmer or @icsrobotics to add you as a collaborator. Only then can you proceed with the following.***
 
   - **If Android Studio is not installed, install it [here](https://developer.android.com/studio)**
   
@@ -34,7 +34,8 @@ Owner of repository is @programming-programmer.
 
 
   - <details>
-    <summary>If you <b>do not</b> have a GitHub account:</summary><ul>
+    <summary>If you <b>do not</b> have a GitHub account 
+    <b> ❗Use this only if you're trying to view or run code. Otherwise you won't be able to update to this repository</b>:</summary><ul>
       <li>Go to Code</li>
       <img src = "https://github.com/programming-programmer/ftc_new/blob/master/enter.png" width = "800">
       
