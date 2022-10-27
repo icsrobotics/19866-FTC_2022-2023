@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 @Config
-@Disabled
 @TeleOp(name = "Robot Test", group = "Linear Opmode")
 public class TestRobotMotors extends LinearOpMode {
 
@@ -43,7 +42,7 @@ public class TestRobotMotors extends LinearOpMode {
             if (gamepad1.y){
                 backLeft.setPower(POWER);
             } else if (gamepad1.b){
-                backRight.setPower(POWER);
+                backLeft.setPower(-POWER);
             } else if (gamepad1.a){
                 frontLeft.setPower(POWER);
             } else if (gamepad1.x){
