@@ -6,28 +6,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
-/* Refrenced code: https://github.com/DeltaRobotics-9351/SkyStone-Regional/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/hardware/MecanumWheels.java */
+/* Refrenced code: https://ftcforum.firstinspires.org/forum/ftc-technology/android-studio/6361-mecanum-wheels-drive-code-example*/
 
 @Config
 @TeleOp(name = "Mecanum Driving POV", group = "Linear Opmode")
 public class Mecanum_POV extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(this);
-
-    double drive;
-    float turnleft;
-    float turnright;
-    double left = 0;
-    double right = 0;
-    double max;
-
-    //wheel motor power
-    double wheelFrontRightPower = 0;
-    double wheelFrontLeftPower = 0;
-    double wheelBackRightPower = 0;
-    double wheelBackLeftPower = 0;
-
-    double turbo = 0.5;
 
     @Override public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -37,34 +22,18 @@ public class Mecanum_POV extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            double y1 = -gamepad1.left_stick_y;
-            double x1 = -gamepad1.left_stick_x;
-            double x2 = -gamepad1.right_stick_x;
-            wheelFrontRightPower = y1 - x2 - x1;
-            wheelBackRightPower = y1 - x2 + x1;
-            wheelFrontLeftPower = y1 + x2 + x1;
-            wheelBackLeftPower = y1 + x2 - x1;
+            double r = Math.hypot(gamepad1.left_stick_x, gamepad1.left_stick_y);
+            double robotAngle = Math.atan2(gamepad1.left_stick_y, gamepad1.left_stick_x) - Math.PI / 4;
+            double rightX = gamepad1.right_stick_x;
+            final double v1 = r * Math.cos(robotAngle) + rightX;
+            final double v2 = r * Math.sin(robotAngle) - rightX;
+            final double v3 = r * Math.sin(robotAngle) + rightX;
+            final double v4 = r * Math.cos(robotAngle) - rightX;
 
-            max = Math.max(Math.abs(wheelFrontRightPower), Math.max(Math.abs(wheelBackRightPower),
-                    Math.max(Math.abs(wheelFrontLeftPower), Math.abs(wheelBackLeftPower))));
-
-            if (max > 1.0)
-            {
-                wheelFrontRightPower /= max;
-                wheelBackRightPower  /= max;
-                wheelFrontLeftPower  /= max;
-                wheelBackLeftPower   /= max;
-            }
-
-            wheelFrontRightPower *= turbo;
-            wheelBackRightPower  *= turbo;
-            wheelFrontLeftPower  *= turbo;
-            wheelBackLeftPower   *= turbo;
-
-            robot.frontRight.setPower(wheelFrontRightPower);
-            robot.frontLeft.setPower(wheelFrontLeftPower);
-            robot.backRight.setPower(wheelBackRightPower);
-            robot.backLeft.setPower(wheelBackLeftPower);
+            robot.frontLeft.setPower(v1);
+            robot.frontRight.setPower(v2);
+            robot.backLeft.setPower(v3);
+            robot.backRight.setPower(v4);
         }
     }
 }
