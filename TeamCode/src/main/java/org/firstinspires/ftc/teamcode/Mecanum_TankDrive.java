@@ -34,14 +34,6 @@ public class Mecanum_TankDrive extends LinearOpMode {
             robot.backRight.setPower(right);
             robot.frontRight.setPower(right);
 
-            // Strafing Left and Right
-            robot.backLeft.setPower(strafe);
-            robot.frontLeft.setPower(-strafe);
-            robot.backRight.setPower(-strafe);
-            robot.frontRight.setPower(strafe);
-
         }
     }
-
-
 }

@@ -32,6 +32,7 @@ public class TestRobotMotors extends LinearOpMode {
         frontLeft = hardwareMap.dcMotor.get("Front_Left");
 
         // This is accurate to 0 - Front_Left, 1 - Back_Left, 2 - Back_Right, 3 - Front_Right
+        // Y - Back Left, B - Back Right, A - Front Left, X - Front Right
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
@@ -42,7 +43,7 @@ public class TestRobotMotors extends LinearOpMode {
             if (gamepad1.y){
                 backLeft.setPower(POWER);
             } else if (gamepad1.b){
-                backLeft.setPower(-POWER);
+                backRight.setPower(POWER);
             } else if (gamepad1.a){
                 frontLeft.setPower(POWER);
             } else if (gamepad1.x){

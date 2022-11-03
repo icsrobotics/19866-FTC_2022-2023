@@ -48,9 +48,9 @@ public class RobotHardware {
         frontLeft = myOpMode.hardwareMap.dcMotor.get("Front_Left");
 
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
+        frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
-        backRight.setDirection((DcMotorSimple.Direction.REVERSE));
+        backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
         /*//IMU Stuff
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -66,7 +66,5 @@ public class RobotHardware {
         imu = myOpMode.hardwareMap.get(BNO055IMU.class, "imu");
 
         imu.initialize(parameters);*/
-
-        telemetry.addLine("Robot is initialized. Good Luck :)");
     }
 }
