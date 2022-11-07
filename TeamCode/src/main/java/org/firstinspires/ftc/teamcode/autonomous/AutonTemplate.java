@@ -1,4 +1,4 @@
-// Refrenced code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AprilTagAutonomousInitDetectionExample.java
+package org.firstinspires.ftc.teamcode.autonomous;// Refrenced Code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AutonTemplate.java
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -13,8 +13,10 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 import java.util.ArrayList;
 
 @TeleOp
-public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
-{
+public class AutonTemplate extends LinearOpMode
+{   
+    //INTRODUCE VARIABLES HERE
+
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -32,10 +34,12 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
     // UNITS ARE METERS
     double tagsize = 0.166;
 
-     // Tag ID 1,2,3 from the 36h11 family
-    int LEFT = 1;
-    int MIDDLE = 2;
-    int RIGHT = 3;
+     // Tag ID 1,2,3 from the 36h11 family 
+     /*EDIT IF NEEDED!!! !!! ACTUALLY IT ALREADY IS THE FILE WITH THE TAGS IS ON THE CHROMEBOOK!!!! */
+
+    int LEFT = 6;
+    int MIDDLE = 7;
+    int RIGHT = 8;
 
     AprilTagDetection tagOfInterest = null;
 
@@ -63,6 +67,10 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
         });
 
         telemetry.setMsTransmissionInterval(50);
+
+
+        //HARDWARE MAPPING HERE etc.
+
 
         /*
          * The INIT-loop:
@@ -127,12 +135,10 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             sleep(20);
         }
 
-        /*
-         * The START command just came in: now work off the latest snapshot acquired
-         * during the init loop.
-         */
 
-        /* Update the telemetry */
+
+
+
         if(tagOfInterest != null)
         {
             telemetry.addLine("Tag snapshot:\n");
@@ -145,18 +151,8 @@ public class AprilTagAutonomousInitDetectionExample extends LinearOpMode
             telemetry.update();
         }
 
-        /* Actually do something useful */
-        if(tagOfInterest == null || tagOfInterest.id == LEFT){
-            //trajectory
-        }else if(tagOfInterest.id == MIDDLE){
-            //trajectory
-        }else{
-            //trajectory
-        }
-
-
-        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive()) {sleep(20);}
+        //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
+        
     }
 
     void tagToTelemetry(AprilTagDetection detection)

@@ -1,4 +1,4 @@
-//Refrenced code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AprilTagDetectionPipeline.java
+package org.firstinspires.ftc.teamcode.autonomous;//Refrenced code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AprilTagDetectionPipeline.java
 
 import org.opencv.calib3d.Calib3d;
 import org.opencv.core.CvType;
