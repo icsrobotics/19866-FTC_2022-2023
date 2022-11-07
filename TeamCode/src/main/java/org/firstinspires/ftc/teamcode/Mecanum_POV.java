@@ -13,6 +13,7 @@ import org.firstinspires.ftc.teamcode.RobotHardware;
 public class Mecanum_POV extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(this);
+    double SOME_VARIABLE = 0.5;
 
     @Override public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -30,10 +31,10 @@ public class Mecanum_POV extends LinearOpMode {
             final double v3 = r * Math.sin(robotAngle) + rightX;
             final double v4 = r * Math.cos(robotAngle) - rightX;
 
-            robot.frontLeft.setPower(v1);
-            robot.frontRight.setPower(v2);
-            robot.backLeft.setPower(v3);
-            robot.backRight.setPower(v4);
+            robot.frontLeft.setPower(v1 * SOME_VARIABLE);
+            robot.frontRight.setPower(v2 * SOME_VARIABLE);
+            robot.backLeft.setPower(v3 * SOME_VARIABLE);
+            robot.backRight.setPower(v4 * SOME_VARIABLE);
         }
     }
 }
