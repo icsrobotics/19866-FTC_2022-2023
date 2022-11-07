@@ -26,9 +26,6 @@ dependencies {
 }
 
 dependencies {
-    // This is to download EasyOpenCV
     implementation 'org.openftc:easyopencv:1.5.2'
-    
-    // This is to download EasyOPenCv plugin AprilTags
     implementation 'org.openftc:apriltag:1.1.0'
 }
