@@ -23,7 +23,9 @@ dependencies {
     // This Downloads FTC Dashboard. Very useful for running OpModes from computer and debugging as well.
     implementation project(':FtcRobotController')
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
-    
+}
+
+dependencies {
     // This is to download EasyOpenCV
     implementation 'org.openftc:easyopencv:1.5.2'
     
