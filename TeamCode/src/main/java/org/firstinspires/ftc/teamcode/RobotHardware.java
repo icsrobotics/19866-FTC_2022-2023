@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.telemetry;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 public class RobotHardware {
 
@@ -15,10 +15,15 @@ public class RobotHardware {
     private LinearOpMode myOpMode = null;   // gain access to methods in the calling OpMode.
 
     // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
-    public DcMotor frontLeft = null;
-    public DcMotor frontRight = null;
-    public DcMotor backRight = null;
-    public DcMotor backLeft = null;
+    public DcMotorEx frontLeft = null;
+    public DcMotorEx frontRight = null;
+    public DcMotorEx backRight = null;
+    public DcMotorEx backLeft = null;
+
+    public DcMotor armMotor_1 = null;
+    public DcMotor armMotor_2 = null;
+
+    public Servo endMotor = null;
 
     BNO055IMU imu;
 
@@ -42,15 +47,27 @@ public class RobotHardware {
      */
     public void init()    {
         // Define and Initialize Motors (note: need to use reference to actual OpMode).
-        backLeft = myOpMode.hardwareMap.dcMotor.get("Back_Left");
-        backRight = myOpMode.hardwareMap.dcMotor.get("Back_Right");
-        frontRight = myOpMode.hardwareMap.dcMotor.get("Front_Right");
-        frontLeft = myOpMode.hardwareMap.dcMotor.get("Front_Left");
+        backLeft = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Back_Left");
+        backRight = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Back_Right");
+        frontRight = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Front_Right");
+        frontLeft = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Front_Left");
 
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        frontLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        frontRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        backLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        backRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
+        armMotor_1 = myOpMode.hardwareMap.dcMotor.get("Arm_1");
+        armMotor_2 = myOpMode.hardwareMap.dcMotor.get("Arm_2");
+
+        endMotor = myOpMode.hardwareMap.servo.get("Servo 1");
+
+
 
         /*//IMU Stuff
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();

@@ -1,7 +1,10 @@
-package org.firstinspires.ftc.teamcode.autonomous;// Refrenced Code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AutonTemplate.java
+package org.firstinspires.ftc.teamcode.autonomous;// Refrenced code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AprilTagAutonomousInitDetectionExample.java
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -12,16 +15,15 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
 
-@TeleOp
-public class AutonTemplate extends LinearOpMode
-{   
-    //INTRODUCE VARIABLES HERE
-
+@Config
+@Autonomous
+public class AprilTagAutonomous extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
     static final double FEET_PER_METER = 3.28084;
 
+    // PUT CAMERA IN USB 2.0 PORT!!!
     // Lens intrinsics
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
@@ -31,12 +33,10 @@ public class AutonTemplate extends LinearOpMode
     double cx = 402.145;
     double cy = 221.506;
 
-    // UNITS ARE METERS
+    // UNITS ARE METERS. maybe we can measure this but later on just to tune it :)
     double tagsize = 0.166;
 
-     // Tag ID 1,2,3 from the 36h11 family 
-     /*EDIT IF NEEDED!!! !!! ACTUALLY IT ALREADY IS THE FILE WITH THE TAGS IS ON THE CHROMEBOOK!!!! */
-
+     // Tag ID 1,2,3 from the 36h11 family. CHANGED TO OUR TAGS
     int LEFT = 6;
     int MIDDLE = 7;
     int RIGHT = 8;
@@ -44,15 +44,17 @@ public class AutonTemplate extends LinearOpMode
     AprilTagDetection tagOfInterest = null;
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = dashboard.getTelemetry();
+        FtcDashboard.getInstance().startCameraStream(camera, 0);
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened()
             {
@@ -60,71 +62,51 @@ public class AutonTemplate extends LinearOpMode
             }
 
             @Override
-            public void onError(int errorCode)
-            {
+            public void onError(int errorCode) {
 
             }
         });
 
         telemetry.setMsTransmissionInterval(50);
 
-
-        //HARDWARE MAPPING HERE etc.
-
-
         /*
          * The INIT-loop:
          * This REPLACES waitForStart!
          */
-        while (!isStarted() && !isStopRequested())
-        {
+        while (!isStarted() && !isStopRequested()) {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            if(currentDetections.size() != 0)
-            {
+            if(currentDetections.size() != 0) {
                 boolean tagFound = false;
 
-                for(AprilTagDetection tag : currentDetections)
-                {
-                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT)
-                    {
+                for(AprilTagDetection tag : currentDetections) {
+                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
                         tagOfInterest = tag;
                         tagFound = true;
                         break;
                     }
                 }
 
-                if(tagFound)
-                {
+                if(tagFound) {
                     telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
                     tagToTelemetry(tagOfInterest);
-                }
-                else
-                {
+                } else {
                     telemetry.addLine("Don't see tag of interest :(");
 
-                    if(tagOfInterest == null)
-                    {
+                    if(tagOfInterest == null) {
                         telemetry.addLine("(The tag has never been seen)");
-                    }
-                    else
-                    {
+                    } else {
                         telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                         tagToTelemetry(tagOfInterest);
                     }
                 }
 
-            }
-            else
-            {
+            } else {
                 telemetry.addLine("Don't see tag of interest :(");
 
-                if(tagOfInterest == null)
-                {
+                if(tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");
-                }
-                else
-                {
+                } else {
                     telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
                     tagToTelemetry(tagOfInterest);
                 }
@@ -135,24 +117,33 @@ public class AutonTemplate extends LinearOpMode
             sleep(20);
         }
 
+        /*
+         * The START command just came in: now work off the latest snapshot acquired
+         * during the init loop.
+         */
 
-
-
-
-        if(tagOfInterest != null)
-        {
+        /* Update the telemetry */
+        if(tagOfInterest != null) {
             telemetry.addLine("Tag snapshot:\n");
             tagToTelemetry(tagOfInterest);
             telemetry.update();
         }
-        else
-        {
+        else {
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
         }
 
-        //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
-        
+        /* Actually do something useful */
+        if(tagOfInterest == null || tagOfInterest.id == LEFT) {
+            //trajectory
+            telemetry.addData("Robot", "LEFT OR NOT DETECTED");
+        } else if(tagOfInterest.id == MIDDLE){
+            //trajectory
+            telemetry.addData("Robot", "MIDDLE");
+        } else{
+            //trajectory
+            telemetry.addData("Robot", "RIGHT");
+        }
     }
 
     void tagToTelemetry(AprilTagDetection detection)
