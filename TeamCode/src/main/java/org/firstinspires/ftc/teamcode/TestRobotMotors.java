@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
 @Config
-@TeleOp(name = "Robot Test", group = "Linear Opmode")
+@TeleOp(name = "Motor Test", group = "Linear Opmode")
 public class TestRobotMotors extends LinearOpMode {
 
     public DcMotor frontLeft = null;
