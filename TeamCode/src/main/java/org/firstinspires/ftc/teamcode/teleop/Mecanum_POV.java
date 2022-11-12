@@ -49,9 +49,11 @@ public class Mecanum_POV extends LinearOpMode {
 
             // Manual Optrion of intake. When b is pressed it moves all in. Used for testing methinks
             if (gamepad2.y) {
-                robot.endServo.setPosition(0.7);
+                robot.endServo.setPosition(1.0);
+            } else if (gamepad2.a) {
+                robot.endServo.setPosition(0);
             } else {
-                robot.endServo.setPosition(0.5);
+                robot.endServo.setPosition(0.4);
             }
 
             //ARM STUFF
