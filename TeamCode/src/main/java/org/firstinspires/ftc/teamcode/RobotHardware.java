@@ -14,25 +14,22 @@ public class RobotHardware {
     /* Declare OpMode members. */
     private LinearOpMode myOpMode = null;   // gain access to methods in the calling OpMode.
 
-    // Define Motor and Servo objects  (Make them private so they can't be accessed externally)
+    // Drive Motors. Ports
     public DcMotorEx frontLeft = null;
     public DcMotorEx frontRight = null;
     public DcMotorEx backRight = null;
     public DcMotorEx backLeft = null;
 
+    // Arm Motors
     public DcMotor armMotor_1 = null;
     public DcMotor armMotor_2 = null;
 
-    public Servo endMotor = null;
+    public Servo endServo = null;
 
     BNO055IMU imu;
 
     // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
-    /*public static final double MID_SERVO       =  0.5 ;
-    public static final double HAND_SPEED      =  0.02 ;  // sets rate to move servo
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;*/
-    public static final double MAX_POWER = 0.7;
+    public double POSITION = 0.7;
 
     // Define a constructor that allows the OpMode to pass a reference to itself.
     public RobotHardware (LinearOpMode opmode) {
@@ -46,7 +43,6 @@ public class RobotHardware {
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
     public void init()    {
-        // Define and Initialize Motors (note: need to use reference to actual OpMode).
         backLeft = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Back_Left");
         backRight = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Back_Right");
         frontRight = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Front_Right");
@@ -65,11 +61,9 @@ public class RobotHardware {
         armMotor_1 = myOpMode.hardwareMap.dcMotor.get("Arm_1");
         armMotor_2 = myOpMode.hardwareMap.dcMotor.get("Arm_2");
 
-        endMotor = myOpMode.hardwareMap.servo.get("Servo 1");
+        endServo = myOpMode.hardwareMap.servo.get("Servo 1");
 
-
-
-        /*//IMU Stuff
+        //IMU Stuff
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         parameters.mode                = BNO055IMU.SensorMode.IMU;
@@ -82,6 +76,6 @@ public class RobotHardware {
         // and named "imu".
         imu = myOpMode.hardwareMap.get(BNO055IMU.class, "imu");
 
-        imu.initialize(parameters);*/
+        imu.initialize(parameters);
     }
 }

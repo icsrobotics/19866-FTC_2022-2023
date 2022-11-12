@@ -1,28 +1,36 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class MyPIDController {
-
-    double integralSum = 0;
+    // PiD Constants
     double Kp = 0;
     double Ki = 0;
     double Kd = 0;
-    double Kf = 0.3;
 
     private double lastError = 0;
+    private double lastIntegral = 0;
 
     ElapsedTime timer = new ElapsedTime();
+    double currentTime, elapsedTime, previousTime;
 
+    // refrence = setpoint you want
+    // state = what the motor or servo is outputting usually acsessed by .getwhatever()
     public double PIDControl (double refrence, double state) {
+        currentTime = timer.seconds();
+        elapsedTime = (double)(currentTime - previousTime);
+
         double error = refrence - state;
-        integralSum += error * timer.seconds();
-        double derivative = (error - lastError) / timer.seconds();
+        double derivative = (error - lastError) / elapsedTime;
+        double integral =  (error + lastIntegral) * elapsedTime;
+
+        // Setting all of the stuff after power or whatever applired
         lastError = error;
+        lastIntegral = integral;
+        previousTime = currentTime;
 
-        timer.reset();
-
-        double output = (error * Kp) + (derivative * Kd) + (integralSum * Ki) + (refrence * Kf);
+        double output = (Kp * error) + (Kd * derivative) + (Ki * integral);
         return output;
     }
 }

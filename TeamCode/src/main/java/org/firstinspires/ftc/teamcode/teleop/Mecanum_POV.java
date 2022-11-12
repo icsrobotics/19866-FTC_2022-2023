@@ -36,14 +36,6 @@ public class Mecanum_POV extends LinearOpMode {
             robot.backLeft.setPower(v3 * SOME_VARIABLE);
             robot.backRight.setPower(v4 * SOME_VARIABLE);
 
-
-            // ARM CODE
-            robot.armMotor_1.setPower(-gamepad2.right_stick_y);
-            robot.armMotor_2.setPower(gamepad2.right_stick_y);
-
-            // END
-            robot.endMotor.setPosition(gamepad2.left_stick_x);
-
         }
     }
 }
