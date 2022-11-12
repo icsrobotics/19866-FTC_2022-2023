@@ -8,12 +8,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
+@Disabled
 @Config
 @TeleOp(name = "Servo Test", group = "Linear Opmode")
 public class TestRobotServo extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(this);
 
+    @Override
     public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();

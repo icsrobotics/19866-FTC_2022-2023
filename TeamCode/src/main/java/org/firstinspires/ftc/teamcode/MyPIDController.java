@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class MyPIDController {
     // PiD Constants
-    double Kp = 0;
+    double Kp = 0.1;
     double Ki = 0;
     double Kd = 0;
 

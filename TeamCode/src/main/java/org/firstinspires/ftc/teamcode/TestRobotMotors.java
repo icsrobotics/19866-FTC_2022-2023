@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 
+@Disabled
 @Config
 @TeleOp(name = "Motor Test", group = "Linear Opmode")
 public class TestRobotMotors extends LinearOpMode {

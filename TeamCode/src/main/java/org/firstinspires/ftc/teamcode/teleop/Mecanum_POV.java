@@ -19,6 +19,8 @@ public class Mecanum_POV extends LinearOpMode {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
 
+        telemetry.setMsTransmissionInterval(50);
+
         robot.init();
         waitForStart();
 
@@ -36,6 +38,30 @@ public class Mecanum_POV extends LinearOpMode {
             robot.backLeft.setPower(v3 * SOME_VARIABLE);
             robot.backRight.setPower(v4 * SOME_VARIABLE);
 
+            // ARM STUFF
+            // Rising edge detector. Toggle for intake when Y is pressed
+            // Using the toggle variable to control the robot.
+            /*if (gamepad2.y && !robot.intakeToggle) {
+                robot.endServo.setPosition(0.7);
+
+                robot.intakeToggle = true;
+            } else if (!gamepad2.y) robot.intakeToggle = false;*/
+
+            // Manual Optrion of intake. When b is pressed it moves all in. Used for testing methinks
+            if (gamepad2.y) {
+                robot.endServo.setPosition(0.7);
+            } else {
+                robot.endServo.setPosition(0.5);
+            }
+
+            //ARM STUFF
+            double power = -gamepad2.right_stick_y * robot.MAX_POWER;
+            robot.leftArmMotor.setPower(power);
+            robot.rightArmMotor.setPower(power);
+
+            telemetry.addData("Left Arm Motor", robot.rightArmMotor.getPower());
+            telemetry.addData("Right Arm Motor", robot.leftArmMotor.getPower());
+            telemetry.update();
         }
     }
 }

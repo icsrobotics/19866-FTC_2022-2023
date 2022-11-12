@@ -16,7 +16,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 import java.util.ArrayList;
 
 @Config
-@Autonomous(name = "Detect Apriltags", group = "Linear Opmode")
+@Autonomous(name = "Autonomous", group = "Linear Opmode")
 public class AprilTagAutonomous extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -137,12 +137,15 @@ public class AprilTagAutonomous extends LinearOpMode {
         if(tagOfInterest == null || tagOfInterest.id == LEFT) {
             //trajectory
             telemetry.addData("Robot", "LEFT OR NOT DETECTED");
+            telemetry.update();
         } else if(tagOfInterest.id == MIDDLE){
             //trajectory
             telemetry.addData("Robot", "MIDDLE");
+            telemetry.update();
         } else{
             //trajectory
             telemetry.addData("Robot", "RIGHT");
+            telemetry.update();
         }
     }
 

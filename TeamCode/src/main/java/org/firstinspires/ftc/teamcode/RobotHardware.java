@@ -21,8 +21,8 @@ public class RobotHardware {
     public DcMotorEx backLeft = null;
 
     // Arm Motors
-    public DcMotor armMotor_1 = null;
-    public DcMotor armMotor_2 = null;
+    public DcMotor leftArmMotor = null;
+    public DcMotor rightArmMotor = null;
 
     public Servo endServo = null;
 
@@ -30,6 +30,8 @@ public class RobotHardware {
 
     // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
     public double POSITION = 0.7;
+    public double MAX_POWER = 0.9;
+    public boolean intakeToggle = false;
 
     // Define a constructor that allows the OpMode to pass a reference to itself.
     public RobotHardware (LinearOpMode opmode) {
@@ -58,10 +60,12 @@ public class RobotHardware {
         backLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        armMotor_1 = myOpMode.hardwareMap.dcMotor.get("Arm_1");
-        armMotor_2 = myOpMode.hardwareMap.dcMotor.get("Arm_2");
+        leftArmMotor = myOpMode.hardwareMap.dcMotor.get("Left_Arm");
+        rightArmMotor = myOpMode.hardwareMap.dcMotor.get("Right_Arm");
+        leftArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
-        endServo = myOpMode.hardwareMap.servo.get("Servo 1");
+        endServo = myOpMode.hardwareMap.servo.get("End_Servo");
 
         //IMU Stuff
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -75,7 +79,6 @@ public class RobotHardware {
         // on a Core Device Interface Module, configured to be a sensor of type "AdaFruit IMU",
         // and named "imu".
         imu = myOpMode.hardwareMap.get(BNO055IMU.class, "imu");
-
         imu.initialize(parameters);
     }
 }

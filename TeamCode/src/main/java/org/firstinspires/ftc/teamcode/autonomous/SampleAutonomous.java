@@ -43,6 +43,8 @@ public class SampleAutonomous extends LinearOpMode {
             robot.backRight.setPower(0);
             robot.frontRight.setPower(0);
             robot.backLeft.setPower(0);
+
+            telemetry.update();
         }
     }
 }
