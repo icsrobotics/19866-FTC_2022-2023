@@ -53,11 +53,11 @@ public class Mecanum_POV extends LinearOpMode {
             } else if (gamepad2.a) {
                 robot.endServo.setPosition(0);
             } else {
-                robot.endServo.setPosition(0.4);
+                robot.endServo.setPosition(0.5);
             }
 
             //ARM STUFF
-            double power = -gamepad2.right_stick_y * robot.MAX_POWER;
+            double power = -gamepad2.left_stick_y * robot.MAX_POWER;
             robot.leftArmMotor.setPower(power);
             robot.rightArmMotor.setPower(power);
 

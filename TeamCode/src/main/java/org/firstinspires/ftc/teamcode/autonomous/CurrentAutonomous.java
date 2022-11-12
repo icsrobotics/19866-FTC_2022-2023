@@ -1,9 +1,7 @@
 package org.firstinspires.ftc.teamcode.autonomous;// Refrenced code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AprilTagAutonomousInitDetectionExample.java
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.acmerobotics.dashboard.config.Config;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -11,13 +9,13 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import java.util.ArrayList;
 
 @Config
 @Autonomous(name = "Autonomous", group = "Linear Opmode")
-public class AprilTagAutonomous extends LinearOpMode {
+public class CurrentAutonomous extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
@@ -103,7 +101,6 @@ public class AprilTagAutonomous extends LinearOpMode {
 
             } else {
                 telemetry.addLine("Don't see tag of interest :(");
-
                 if(tagOfInterest == null) {
                     telemetry.addLine("(The tag has never been seen)");
                 } else {
