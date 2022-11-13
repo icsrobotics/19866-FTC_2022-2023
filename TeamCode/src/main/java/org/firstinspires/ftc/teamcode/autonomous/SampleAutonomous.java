@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 import org.firstinspires.ftc.teamcode.MyPIDController;
 
+@Disabled
 @Config
 @TeleOp(name = "PID Test for Auto", group = "Linear Opmode")
 public class SampleAutonomous extends LinearOpMode {

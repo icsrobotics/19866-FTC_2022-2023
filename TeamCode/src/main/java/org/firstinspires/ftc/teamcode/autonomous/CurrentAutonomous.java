@@ -12,12 +12,17 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import java.util.ArrayList;
+import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.MyPIDController;
 
 @Config
 @Autonomous(name = "Autonomous", group = "Linear Opmode")
 public class CurrentAutonomous extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
+
+    RobotHardware robot = new RobotHardware(this);
+    MyPIDController pid = new MyPIDController();
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -45,7 +50,7 @@ public class CurrentAutonomous extends LinearOpMode {
     public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
-        FtcDashboard.getInstance().startCameraStream(camera, 0);
+        FtcDashboard.getInstance().startCameraStream(camera, 10); //0 originally
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -66,6 +71,8 @@ public class CurrentAutonomous extends LinearOpMode {
         });
 
         telemetry.setMsTransmissionInterval(50);
+
+        robot.init();
 
         /*
          * The INIT-loop:
@@ -132,18 +139,20 @@ public class CurrentAutonomous extends LinearOpMode {
 
         /* Actually do something useful */
         if(tagOfInterest == null || tagOfInterest.id == LEFT) {
-            //trajectory
+
             telemetry.addData("Robot", "LEFT OR NOT DETECTED");
             telemetry.update();
         } else if(tagOfInterest.id == MIDDLE){
-            //trajectory
+
             telemetry.addData("Robot", "MIDDLE");
             telemetry.update();
-        } else{
-            //trajectory
+        } else if (tagOfInterest.id == RIGHT){
+
             telemetry.addData("Robot", "RIGHT");
             telemetry.update();
         }
+
+
     }
 
     void tagToTelemetry(AprilTagDetection detection)

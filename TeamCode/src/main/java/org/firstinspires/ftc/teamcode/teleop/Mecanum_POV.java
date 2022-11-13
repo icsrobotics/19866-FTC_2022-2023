@@ -46,6 +46,16 @@ public class Mecanum_POV extends LinearOpMode {
 
                 robot.intakeToggle = true;
             } else if (!gamepad2.y) robot.intakeToggle = false;*/
+            boolean toggle = false;
+
+            if (gamepad2.y) {
+                toggle = !toggle;
+            }
+            if (toggle) {
+                robot.endServo.setPosition(1.0);
+            } else if (toggle == false) {
+                robot.endServo.setPosition(0.5);
+            }
 
             // Manual Optrion of intake. When b is pressed it moves all in. Used for testing methinks
             if (gamepad2.y) {
@@ -63,6 +73,7 @@ public class Mecanum_POV extends LinearOpMode {
 
             telemetry.addData("Left Arm Motor", robot.rightArmMotor.getPower());
             telemetry.addData("Right Arm Motor", robot.leftArmMotor.getPower());
+            telemetry.addData("Servo Position", robot.endServo.getPosition());
             telemetry.update();
         }
     }
