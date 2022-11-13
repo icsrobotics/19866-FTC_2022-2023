@@ -22,7 +22,7 @@ public class CurrentAutonomous extends LinearOpMode {
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
     RobotHardware robot = new RobotHardware(this);
-    MyPIDController pid = new MyPIDController();
+    MyPIDController pid = new MyPIDController(0.05, 0, 0);
 
     static final double FEET_PER_METER = 3.28084;
 

@@ -14,7 +14,7 @@ import org.firstinspires.ftc.teamcode.MyPIDController;
 public class SampleAutonomous extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(this);
-    MyPIDController PIDControl = new MyPIDController();
+    MyPIDController PIDControl = new MyPIDController(0.05, 0, 0);
 
     @Override public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();

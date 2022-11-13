@@ -38,42 +38,38 @@ public class Mecanum_POV extends LinearOpMode {
             robot.backLeft.setPower(v3 * SOME_VARIABLE);
             robot.backRight.setPower(v4 * SOME_VARIABLE);
 
-            // ARM STUFF
-            // Rising edge detector. Toggle for intake when Y is pressed
-            // Using the toggle variable to control the robot.
-            /*if (gamepad2.y && !robot.intakeToggle) {
-                robot.endServo.setPosition(0.7);
-
+            // Servo STUFF
+            if (gamepad2.y && !robot.intakeToggle) {
+                if (robot.endServo.getPosition() == 0.5) robot.endServo.setPosition(1.0);
+                else robot.endServo.setPosition(0.5);
                 robot.intakeToggle = true;
-            } else if (!gamepad2.y) robot.intakeToggle = false;*/
-            boolean toggle = false;
 
-            if (gamepad2.y) {
-                toggle = !toggle;
-            }
-            if (toggle) {
-                robot.endServo.setPosition(1.0);
-            } else if (toggle == false) {
-                robot.endServo.setPosition(0.5);
-            }
+            } else if (!gamepad2.y) robot.intakeToggle = false;
 
-            // Manual Optrion of intake. When b is pressed it moves all in. Used for testing methinks
-            if (gamepad2.y) {
-                robot.endServo.setPosition(1.0);
-            } else if (gamepad2.a) {
-                robot.endServo.setPosition(0);
-            } else {
-                robot.endServo.setPosition(0.5);
-            }
+            if (gamepad2.b) robot.endServo.setPosition(1.0);
+            if (gamepad2.a) robot.endServo.setPosition(0);
 
             //ARM STUFF
             double power = -gamepad2.left_stick_y * robot.MAX_POWER;
             robot.leftArmMotor.setPower(power);
             robot.rightArmMotor.setPower(power);
 
-            telemetry.addData("Left Arm Motor", robot.rightArmMotor.getPower());
-            telemetry.addData("Right Arm Motor", robot.leftArmMotor.getPower());
+
+            // WHATS GOIN ON. Telemetry tells you
+            telemetry.addData("Back Left Motor", robot.backLeft.getCurrentPosition());
+            telemetry.addData("Back Right Motor", robot.backRight.getCurrentPosition());
+            telemetry.addData("Front Left Motor", robot.frontLeft.getCurrentPosition());
+            telemetry.addData("Front Right Motor", robot.frontRight.getCurrentPosition());
+
+            telemetry.addLine();
+
+            telemetry.addData("Left Arm Motor", robot.rightArmMotor.getCurrentPosition());
+            telemetry.addData("Right Arm Motor", robot.leftArmMotor.getCurrentPosition());
+
+            telemetry.addLine();
+
             telemetry.addData("Servo Position", robot.endServo.getPosition());
+
             telemetry.update();
         }
     }

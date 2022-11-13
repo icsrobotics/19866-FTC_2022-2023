@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 public class MyPIDController {
     // PiD Constants
-    double Kp = 0.1;
+    double Kp = 0;
     double Ki = 0;
     double Kd = 0;
 
@@ -14,6 +14,12 @@ public class MyPIDController {
 
     ElapsedTime timer = new ElapsedTime();
     double currentTime, elapsedTime, previousTime;
+
+    public MyPIDController (double P, double I, double D) {
+        this.Kp = P;
+        this.Ki = I;
+        this.Kd = D;
+    }
 
     // refrence = setpoint you want
     // state = what the motor or servo is outputting usually acsessed by .getwhatever()

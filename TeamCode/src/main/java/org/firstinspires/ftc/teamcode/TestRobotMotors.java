@@ -32,8 +32,8 @@ public class TestRobotMotors extends LinearOpMode {
         frontRight = hardwareMap.dcMotor.get("Front_Right");
         frontLeft = hardwareMap.dcMotor.get("Front_Left");
 
-        // This is accurate to 0 - Front_Left, 1 - Back_Left, 2 - Back_Right, 3 - Front_Right
-        // Y - Back Left, B - Back Right, A - Front Left, X - Front Right
+        // Ports: 0 - Front_Left, 1 - Back_Left, 2 - Back_Right, 3 - Front_Right
+        // Buttons: Y - Back Left, B - Back Right, A - Front Left, X - Front Right
         frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
         frontRight.setDirection(DcMotorSimple.Direction.FORWARD);
         backLeft.setDirection(DcMotorSimple.Direction.FORWARD);

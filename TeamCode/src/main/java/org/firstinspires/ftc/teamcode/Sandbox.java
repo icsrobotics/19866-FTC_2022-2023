@@ -13,46 +13,38 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 @TeleOp(name = "Sandbox (The little playground)", group = "Linear Opmode")
 public class Sandbox extends LinearOpMode{
+
     RobotHardware robot = new RobotHardware(this);
-    MyPIDController pidControl = new MyPIDController();
-
-    public Servo endServo = null;
-    public DcMotor leftArmMotor = null;
-    public DcMotor rightArmMotor = null;
-
-    boolean intakeToggle = false;
+    MyPIDController pidControl = new MyPIDController(0.05, 0, 0);
 
     @Override
     public void runOpMode() throws InterruptedException {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
+        int level = 0;
 
         telemetry.setMsTransmissionInterval(50);
 
+//        robot.init();
         waitForStart();
 
-        endServo  = hardwareMap.get(Servo.class, "Servo");
-
         while (opModeIsActive()) {
-           if (gamepad2.dpad_up) {
-               telemetry.addData("Dpad Up", "Pressed");
-               telemetry.update();
-           }
+/*
+            int targetPosition = 100;
 
-            boolean toggle = false;
+            double blPower = pidControl.PIDControl(targetPosition, robot.backLeft.getCurrentPosition());
+            double brPower = pidControl.PIDControl(targetPosition, robot.backRight.getCurrentPosition());
+            double flPower = pidControl.PIDControl(targetPosition, robot.frontLeft.getCurrentPosition());
+            double frPower = pidControl.PIDControl(targetPosition, robot.frontRight.getCurrentPosition());
 
-            if (gamepad2.y && !toggle) {
-                toggle = !toggle;
+*/
+            if (gamepad2.dpad_up) {
+                telemetry.addData("Dpad Up", "Pressed");
+                level = level + 1;
+                telemetry.addData("Level", level);
+
+                telemetry.update();
             }
-            if (toggle) {
-                robot.endServo.setPosition(1.0);
-            } else if (toggle == false) {
-                robot.endServo.setPosition(0.5);
-            }
-
         }
-
-            telemetry.addData("Servo Position", endServo.getPosition());
-            telemetry.update();
     }
 }

@@ -60,11 +60,27 @@ public class RobotHardware {
         backLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+        // ARM STUFF
         leftArmMotor = myOpMode.hardwareMap.dcMotor.get("Left_Arm");
         rightArmMotor = myOpMode.hardwareMap.dcMotor.get("Right_Arm");
+
         leftArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
 
+        leftArmMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        rightArmMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+
+        leftArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+        //SERVO STUFF
         endServo = myOpMode.hardwareMap.servo.get("End_Servo");
 
         //IMU Stuff
