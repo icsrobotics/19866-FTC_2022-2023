@@ -16,6 +16,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 
+// This class detects the apriltags. DO NOT EDIT.
 class AprilTagDetectionPipeline extends OpenCvPipeline {
     private long nativeApriltagPtr;
     private Mat grey = new Mat();

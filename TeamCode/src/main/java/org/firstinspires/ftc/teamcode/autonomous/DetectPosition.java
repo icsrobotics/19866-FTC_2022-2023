@@ -9,20 +9,18 @@ import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
+import org.firstinspires.ftc.teamcode.RobotHardware;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import java.util.ArrayList;
-import org.firstinspires.ftc.teamcode.RobotHardware;
-import org.firstinspires.ftc.teamcode.MyPIDController;
 
 @Config
-@Autonomous(name = "Autonomous", group = "Linear Opmode")
-public class CurrentAutonomous extends LinearOpMode {
+@Autonomous(name = "Detect Position", group = "Linear Opmode")
+public class DetectPosition extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
     RobotHardware robot = new RobotHardware(this);
-    MyPIDController pid = new MyPIDController(0.05, 0, 0);
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -46,7 +44,6 @@ public class CurrentAutonomous extends LinearOpMode {
 
     AprilTagDetection tagOfInterest = null;
 
-    @Override
     public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
         telemetry = dashboard.getTelemetry();
@@ -71,8 +68,6 @@ public class CurrentAutonomous extends LinearOpMode {
         });
 
         telemetry.setMsTransmissionInterval(50);
-
-        robot.init();
 
         /*
          * The INIT-loop:
@@ -139,7 +134,7 @@ public class CurrentAutonomous extends LinearOpMode {
 
         /* Actually do something useful */
         if(tagOfInterest == null || tagOfInterest.id == LEFT) {
-
+            robot.endServo.setPosition(1.0);
             telemetry.addData("Robot", "LEFT OR NOT DETECTED");
             telemetry.update();
         } else if(tagOfInterest.id == MIDDLE){

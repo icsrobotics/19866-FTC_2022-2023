@@ -44,7 +44,7 @@ public class RobotHardware {
      *
      * All of the hardware devices are accessed via the hardware map, and initialized.
      */
-    public void init()    {
+    public void init() {
         backLeft = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Back_Left");
         backRight = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Back_Right");
         frontRight = (DcMotorEx) myOpMode.hardwareMap.dcMotor.get("Front_Right");
