@@ -9,6 +9,8 @@ public class MyPIDController {
     double Ki = 0;
     double Kd = 0;
 
+    public double error;
+
     private double lastError = 0;
     private double lastIntegral = 0;
 
@@ -23,11 +25,11 @@ public class MyPIDController {
 
     // refrence = setpoint you want
     // state = what the motor or servo is outputting usually acsessed by .getwhatever()
-    public double PIDControl (double refrence, double state) {
+    public double PIDControl (double reference, double state) {
         currentTime = timer.seconds();
         elapsedTime = (double)(currentTime - previousTime);
 
-        double error = refrence - state;
+        error = reference - state;
         double derivative = (error - lastError) / elapsedTime;
         double integral =  (error + lastIntegral) * elapsedTime;
 
