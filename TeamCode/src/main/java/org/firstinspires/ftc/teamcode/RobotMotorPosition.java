@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
@@ -10,8 +10,8 @@ import org.firstinspires.ftc.teamcode.MyPIDController;
 
 @Disabled
 @Config
-@TeleOp(name = "PID Test for Auto", group = "Linear Opmode")
-public class SampleAutonomous extends LinearOpMode {
+@TeleOp(name = "Robot Motor Position", group = "Linear Opmode")
+public class RobotMotorPosition extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(this);
     MyPIDController PIDControl = new MyPIDController(0.05, 0, 0);
