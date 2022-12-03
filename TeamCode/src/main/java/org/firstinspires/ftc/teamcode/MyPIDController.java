@@ -31,7 +31,7 @@ public class MyPIDController {
         double derivative = (error - lastError) / elapsedTime;
         double integral =  (error + lastIntegral) * elapsedTime;
 
-        // Setting all of the stuff after power or whatever applired
+        // Setting all of the stuff after power or whatever applied
         lastError = error;
         lastIntegral = integral;
         previousTime = currentTime;

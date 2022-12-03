@@ -24,11 +24,11 @@ public class TestRobotServo extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            // Run wheels in tank mode (note: The joystick goes negative when pushed forward, so negate it)
-            if (gamepad1.y) robot.endServo.setPosition(robot.POSITION);
-            else if (gamepad1.a) robot.endServo.setPosition(-robot.POSITION);
+            // Run wheels in tank mode (note: The joystick goes negative when pushed forward, so negate it). wtf is this for?
+            if (gamepad1.y) robot.endServo.setPosition(0.7);
+            else if (gamepad1.a) robot.endServo.setPosition(-0.7);
             else {
-                robot.endServo.setPosition(robot.POSITION);
+                robot.endServo.setPosition(0.7);
             }
 
             // toggle servo. probably useful resource: https://gm0.org/en/latest/docs/software/tutorials/gamepad.html

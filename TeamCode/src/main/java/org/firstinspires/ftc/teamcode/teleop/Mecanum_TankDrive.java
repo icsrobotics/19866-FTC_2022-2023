@@ -17,6 +17,7 @@ public class Mecanum_TankDrive extends LinearOpMode {
     double left;
     double right;
     double strafe;
+    double MAX_POWER = 1.0;
 
     @Override
     public void runOpMode() {
@@ -28,9 +29,9 @@ public class Mecanum_TankDrive extends LinearOpMode {
 
         while (opModeIsActive()) {
             // Run wheels in tank mode (note: The joystick goes negative when pushed forward, so negate it)
-            left = -gamepad1.left_stick_y * robot.MAX_POWER;
-            right = -gamepad1.right_stick_y * robot.MAX_POWER;
-            strafe = -gamepad1.left_stick_x * robot.MAX_POWER;
+            left = -gamepad1.left_stick_y * MAX_POWER;
+            right = -gamepad1.right_stick_y * MAX_POWER;
+            strafe = -gamepad1.left_stick_x * MAX_POWER;
 
             // Forwawrd and Backward
             robot.backLeft.setPower(left);

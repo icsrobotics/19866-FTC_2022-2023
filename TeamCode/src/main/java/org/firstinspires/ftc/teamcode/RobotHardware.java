@@ -29,8 +29,6 @@ public class RobotHardware {
     BNO055IMU imu;
 
     // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
-    public double POSITION = 0.7;
-    public double MAX_POWER = 1.0;
     public boolean intakeToggle = false;
 
     // Define a constructor that allows the OpMode to pass a reference to itself.

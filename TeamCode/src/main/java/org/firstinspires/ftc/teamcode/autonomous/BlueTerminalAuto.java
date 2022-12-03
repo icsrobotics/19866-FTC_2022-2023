@@ -17,7 +17,7 @@ import org.firstinspires.ftc.teamcode.MyPIDController;
 import java.util.ArrayList;
 
 @Config
-@Autonomous(name = "Detect Position", group = "Linear Opmode")
+@Autonomous(name = "Blue Terminal Autonomous", group = "Linear Opmode")
 public class BlueTerminalAuto extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
