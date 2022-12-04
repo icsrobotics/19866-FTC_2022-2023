@@ -5,6 +5,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.MyPIDController;
 import org.firstinspires.ftc.teamcode.RobotHardware;
@@ -31,17 +32,21 @@ public class DefaultAuto extends LinearOpMode {
 
         telemetry.setMsTransmissionInterval(50);
 
+        robot.backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         robot.init();
+
         waitForStart();
 
         while (opModeIsActive()) {
-            //intake cone
-            robot.endServo.setPosition(0.5); //suck it in *schlorp*
 
             // move forward one tile
             blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
+            brPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition(), 50);
+            flPower = DrivePIDController.PIDControl(-oneTile, robot.frontLeft.getCurrentPosition(), 50);
             frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
