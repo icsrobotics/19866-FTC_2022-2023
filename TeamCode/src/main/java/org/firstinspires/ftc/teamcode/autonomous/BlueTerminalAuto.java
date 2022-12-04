@@ -27,7 +27,7 @@ public class BlueTerminalAuto extends LinearOpMode {
 
 
     MyPIDController DrivePIDController = new MyPIDController(0.07, 0.05, 0.01);
-    MyPIDController ArmPIDController = new MyPIDController(0, 0, 0);
+    MyPIDController ArmPIDController = new MyPIDController(0.05, 0, 0);
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -138,7 +138,7 @@ public class BlueTerminalAuto extends LinearOpMode {
         }
 
         /* Actually do something useful */
-        int oneTile = 500;
+        int oneTile = 1500;
         int highTargetPosition = 7465;
 
         double blPower;

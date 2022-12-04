@@ -58,24 +58,24 @@ public class RobotHardware {
         backLeft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         backRight.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
 
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
 
         // ARM STUFF
         leftArmMotor = myOpMode.hardwareMap.dcMotor.get("Left_Arm");
         rightArmMotor = myOpMode.hardwareMap.dcMotor.get("Right_Arm");
 
-        leftArmMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightArmMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftArmMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightArmMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        leftArmMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        rightArmMotor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        leftArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        leftArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftArmMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        rightArmMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
 
         //SERVO STUFF

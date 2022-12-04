@@ -25,8 +25,8 @@ public class RedTerminalAuto extends LinearOpMode {
 
     RobotHardware robot = new RobotHardware(this);
 
-    MyPIDController DrivePIDController = new MyPIDController(0, 0, 0);
-    MyPIDController ArmPIDController = new MyPIDController(0, 0, 0);
+    MyPIDController DrivePIDController = new MyPIDController(0.07, 0.05, 0.01);
+    MyPIDController ArmPIDController = new MyPIDController(0.05, 0, 0);
 
     static final double FEET_PER_METER = 3.28084;
 
