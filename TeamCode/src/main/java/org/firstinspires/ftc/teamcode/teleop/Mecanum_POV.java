@@ -46,9 +46,9 @@ public class Mecanum_POV extends LinearOpMode {
 
             } else if (!gamepad2.y) robot.intakeToggle = false;
 
+            // Optional servo stuff (debugging methinks?)
             if (gamepad2.b) robot.endServo.setPosition(1.0);
             if (gamepad2.a) robot.endServo.setPosition(0);
-
             //ARM STUFF
             double power = -gamepad2.left_stick_y;
             robot.leftArmMotor.setPower(power);

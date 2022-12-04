@@ -56,6 +56,11 @@ public class RedTerminalAuto extends LinearOpMode {
         FtcDashboard.getInstance().startCameraStream(camera, 10); //0 originally
         telemetry.setMsTransmissionInterval(50);
 
+        robot.init();
+        robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
@@ -140,27 +145,42 @@ public class RedTerminalAuto extends LinearOpMode {
         }
 
         /* Actually do something useful */
-        int oneTile = 0;
-        int highTargetPosition = 0;
+        telemetry.addData("Left Arm Motor Position", robot.leftArmMotor.getCurrentPosition());
+        telemetry.addData("Right Arm Motor Position", robot.rightArmMotor.getCurrentPosition());
+
+        telemetry.addData("Back Left Motor", robot.backLeft.getCurrentPosition());
+        telemetry.addData("Back Right Motor", robot.backRight.getCurrentPosition());
+        telemetry.addData("Front Left Motor", robot.frontLeft.getCurrentPosition());
+        telemetry.addData("Front Right Motor", robot.frontRight.getCurrentPosition());
+
+        telemetry.addData("Error Value For Drivetrain", DrivePIDController.error);
+        telemetry.addData("Error Value For Arm", ArmPIDController.error);
+
+        int oneTile = 500;
+        int highTargetPosition = 7466;
+
+        double blPower;
+        double brPower;
+        double flPower;
+        double frPower;
+
+        double leftArmPower;
+        double rightArmPower;
 
         if(tagOfInterest == null || tagOfInterest.id == LEFT /* #1 */) {
             //intake cone
-            robot.endServo.setPosition(1.0); //suck it in *schlorp*
+            robot.endServo.setPosition(0.5); //suck it in *schlorp*
 
             // strafe right one tile
-            double blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
-            double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
-            double flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            double frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
+            blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
+            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
+            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
+            frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
             robot.backRight.setPower(brPower);
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
-
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             sleep(500);
 
@@ -175,10 +195,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
 
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
             sleep(500);
 
             //strafe right 1/2 tile
@@ -192,15 +208,11 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
 
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
             sleep(500);
 
             // raise arm to highest position
-            double leftArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.leftArmMotor.getCurrentPosition(), 50);
-            double rightArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.rightArmMotor.getCurrentPosition(), 50);
+            leftArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.leftArmMotor.getCurrentPosition(), 50);
+            rightArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.rightArmMotor.getCurrentPosition(), 50);
 
             robot.leftArmMotor.setPower(leftArmPower);
             robot.rightArmMotor.setPower(rightArmPower);
@@ -231,10 +243,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.backRight.setPower(brPower);
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
-
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             sleep(500);
 
@@ -255,22 +263,18 @@ public class RedTerminalAuto extends LinearOpMode {
             telemetry.update();
         } else if(tagOfInterest.id == MIDDLE /* #2 */){
             //intake cone
-            robot.endServo.setPosition(1.0); //suck it in *schlorp*
+            robot.endServo.setPosition(0.5); //suck it in *schlorp*
 
             // strafe right one tile
-            double blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
-            double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
-            double flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            double frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
+            blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
+            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
+            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
+            frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
             robot.backRight.setPower(brPower);
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
-
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             sleep(500);
 
@@ -285,10 +289,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
 
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
             sleep(500);
 
             //strafe right 1/2 tile
@@ -302,15 +302,11 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
 
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
             sleep(500);
 
             // raise arm to highest position
-            double leftArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.leftArmMotor.getCurrentPosition(), 50);
-            double rightArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.rightArmMotor.getCurrentPosition(), 50);
+            leftArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.leftArmMotor.getCurrentPosition(), 50);
+            rightArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.rightArmMotor.getCurrentPosition(), 50);
 
             robot.leftArmMotor.setPower(leftArmPower);
             robot.rightArmMotor.setPower(rightArmPower);
@@ -341,10 +337,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.backRight.setPower(brPower);
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
-
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             sleep(500);
 
@@ -372,10 +364,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
 
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
             sleep(500);
 
             telemetry.addData("Robot", "MIDDLE");
@@ -383,22 +371,18 @@ public class RedTerminalAuto extends LinearOpMode {
 
         } else if (tagOfInterest.id == RIGHT /* #3 */){
             //intake cone
-            robot.endServo.setPosition(1.0); //suck it in *schlorp*
+            robot.endServo.setPosition(0.5); //suck it in *schlorp*
 
             // strafe right one tile
-            double blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
-            double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
-            double flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            double frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
+            blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
+            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
+            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
+            frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
             robot.backRight.setPower(brPower);
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
-
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             sleep(500);
 
@@ -413,10 +397,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
 
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
             sleep(500);
 
             //strafe right 1/2 tile
@@ -430,15 +410,11 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
 
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
             sleep(500);
 
             // raise arm to highest position
-            double leftArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.leftArmMotor.getCurrentPosition(), 50);
-            double rightArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.rightArmMotor.getCurrentPosition(), 50);
+            leftArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.leftArmMotor.getCurrentPosition(), 50);
+            rightArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.rightArmMotor.getCurrentPosition(), 50);
 
             robot.leftArmMotor.setPower(leftArmPower);
             robot.rightArmMotor.setPower(rightArmPower);
@@ -470,10 +446,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
 
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
             sleep(500);
 
             // stay still
@@ -499,10 +471,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.backRight.setPower(brPower);
             robot.frontLeft.setPower(flPower);
             robot.frontRight.setPower(frPower);
-
-            robot.backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot.frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
             sleep(500);
 
