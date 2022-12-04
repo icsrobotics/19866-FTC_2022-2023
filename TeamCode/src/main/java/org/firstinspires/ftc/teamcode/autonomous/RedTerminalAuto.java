@@ -148,10 +148,10 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.endServo.setPosition(1.0); //suck it in *schlorp*
 
             // strafe right one tile
-            double blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 50);
+            double blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
             double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
             double flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            double frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 50);
+            double frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
             robot.backRight.setPower(brPower);
@@ -182,10 +182,10 @@ public class RedTerminalAuto extends LinearOpMode {
             sleep(500);
 
             //strafe right 1/2 tile
-            blPower = DrivePIDController.PIDControl(oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
+            blPower = DrivePIDController.PIDControl(-oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
             brPower = DrivePIDController.PIDControl(oneTile / 2, robot.backRight.getCurrentPosition(), 50);
             flPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
+            frPower = DrivePIDController.PIDControl(-oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
             robot.backRight.setPower(brPower);
@@ -223,8 +223,8 @@ public class RedTerminalAuto extends LinearOpMode {
 
             // strafe left 1/2 tile
             blPower = DrivePIDController.PIDControl(oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(oneTile / 2, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
+            brPower = DrivePIDController.PIDControl(-oneTile / 2, robot.backRight.getCurrentPosition(), 50);
+            flPower = DrivePIDController.PIDControl(-oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
             frPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
@@ -258,10 +258,10 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.endServo.setPosition(1.0); //suck it in *schlorp*
 
             // strafe right one tile
-            double blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 50);
+            double blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
             double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
             double flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            double frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 50);
+            double frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
             robot.backRight.setPower(brPower);
@@ -293,8 +293,8 @@ public class RedTerminalAuto extends LinearOpMode {
 
             //strafe right 1/2 tile
             blPower = DrivePIDController.PIDControl(oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(oneTile / 2, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
+            brPower = DrivePIDController.PIDControl(-oneTile / 2, robot.backRight.getCurrentPosition(), 50);
+            flPower = DrivePIDController.PIDControl(-oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
             frPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
@@ -332,10 +332,10 @@ public class RedTerminalAuto extends LinearOpMode {
             sleep(500);
 
             // strafe left 1/2 tile
-            blPower = DrivePIDController.PIDControl(oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
+            blPower = DrivePIDController.PIDControl(-oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
             brPower = DrivePIDController.PIDControl(oneTile / 2, robot.backRight.getCurrentPosition(), 50);
             flPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
+            frPower = DrivePIDController.PIDControl(-oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
             robot.backRight.setPower(brPower);
@@ -363,8 +363,8 @@ public class RedTerminalAuto extends LinearOpMode {
 
             // strafe one tile left
             blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
+            brPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition(), 50);
+            flPower = DrivePIDController.PIDControl(-oneTile, robot.frontLeft.getCurrentPosition(), 50);
             frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
@@ -386,10 +386,10 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.endServo.setPosition(1.0); //suck it in *schlorp*
 
             // strafe right one tile
-            double blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 50);
+            double blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
             double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
             double flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            double frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 50);
+            double frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
             robot.backRight.setPower(brPower);
@@ -420,10 +420,10 @@ public class RedTerminalAuto extends LinearOpMode {
             sleep(500);
 
             //strafe right 1/2 tile
-            blPower = DrivePIDController.PIDControl(oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
+            blPower = DrivePIDController.PIDControl(-oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
             brPower = DrivePIDController.PIDControl(oneTile / 2, robot.backRight.getCurrentPosition(), 50);
             flPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
+            frPower = DrivePIDController.PIDControl(-oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
             robot.backRight.setPower(brPower);
@@ -461,8 +461,8 @@ public class RedTerminalAuto extends LinearOpMode {
 
             // strafe left 1/2 tile
             blPower = DrivePIDController.PIDControl(oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(oneTile / 2, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
+            brPower = DrivePIDController.PIDControl(-oneTile / 2, robot.backRight.getCurrentPosition(), 50);
+            flPower = DrivePIDController.PIDControl(-oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
             frPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
@@ -491,8 +491,8 @@ public class RedTerminalAuto extends LinearOpMode {
 
             // strafe two tiles left
             blPower = DrivePIDController.PIDControl(oneTile * 2, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(oneTile * 2, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(oneTile * 2, robot.frontLeft.getCurrentPosition(), 50);
+            brPower = DrivePIDController.PIDControl(-oneTile * 2, robot.backRight.getCurrentPosition(), 50);
+            flPower = DrivePIDController.PIDControl(-oneTile * 2, robot.frontLeft.getCurrentPosition(), 50);
             frPower = DrivePIDController.PIDControl(oneTile * 2, robot.frontRight.getCurrentPosition(), 50);
 
             robot.backLeft.setPower(blPower);
