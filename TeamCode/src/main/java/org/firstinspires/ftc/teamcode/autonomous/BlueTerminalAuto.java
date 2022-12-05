@@ -12,6 +12,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.firstinspires.ftc.teamcode.RobotHardware;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.teamcode.MyPIDController;
 
@@ -24,7 +25,6 @@ public class BlueTerminalAuto extends LinearOpMode {
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
     RobotHardware robot = new RobotHardware(this);
-
 
     MyPIDController DrivePIDController = new MyPIDController(0.07, 0.05, 0.01);
     MyPIDController ArmPIDController = new MyPIDController(0.05, 0, 0);
@@ -140,339 +140,33 @@ public class BlueTerminalAuto extends LinearOpMode {
 
         //Actually do something useful
 
-        int oneTile = 3000;
-        int highTargetPosition = 7465;
-
-        double blPower;
-        double brPower;
-        double flPower;
-        double frPower;
-
-        double leftArmPower;
-        double rightArmPower;
+        //GENERAL:
+            // suck in cone
+            // left tile
+            //forward tile
+            // left 1/2 tile
+            //raise arm
+            //drop cone
+            // drop arm
+            //right 1/2 tile
 
         if(tagOfInterest == null || tagOfInterest.id == LEFT /*#1*/) {
-/*            //intake cone
-            robot.endServo.setPosition(0.5); //suck it in *schlorp*
-
-            // strafe left one tile
-            blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(-oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 50);
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);*/
-
-            // forward one tile
-            blPower = 0.3;
-            brPower = 0.3;
-            flPower = 0.3;
-            frPower = 0.3;
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(oneTile);
-
-            robot.backLeft.setPower(0);
-            robot.backRight.setPower(0);
-            robot.frontLeft.setPower(0);
-            robot.frontRight.setPower(0);
-
-/*            //left 1/2 tile
-            blPower = DrivePIDController.PIDControl(oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(-oneTile / 2, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(-oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);*/
-
-            // strafe left
-            blPower = 0.3;
-            brPower = 0.3;
-            flPower = 0.3;
-            frPower = 0.3;
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(oneTile);
-
-            robot.backLeft.setPower(0);
-            robot.backRight.setPower(0);
-            robot.frontLeft.setPower(0);
-            robot.frontRight.setPower(0);
-
-/*            //raise arm to highest level
-            leftArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.leftArmMotor.getCurrentPosition());
-            rightArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.rightArmMotor.getCurrentPosition());
-
-            robot.leftArmMotor.setPower(leftArmPower);
-            robot.rightArmMotor.setPower(rightArmPower);
-
-            sleep(500);
-
-            // drop cone
-            robot.endServo.setPosition(0); //spit it out *burp*
-
-            sleep(500);
-
-            // drop arm
-            leftArmPower = ArmPIDController.PIDControl(0, robot.leftArmMotor.getCurrentPosition());
-            rightArmPower = ArmPIDController.PIDControl(0, robot.rightArmMotor.getCurrentPosition());
-
-            robot.leftArmMotor.setPower(leftArmPower);
-            robot.rightArmMotor.setPower(rightArmPower);
-
-            sleep(500);
-
-            // strafe one tile right
-            blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);
-
             // stay still
-            blPower = 0;
-            brPower = 0;
-            flPower = 0;
-            frPower = 0;
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);*/
 
             telemetry.addData("Robot", "LEFT OR NOT DETECTED");
-            telemetry.addData("YOU!", "thank God if this code doesn't break the robot :)");
+            telemetry.addData("!!!", "thank God if this code doesn't break the robot :)");
             telemetry.update();
 
         } else if(tagOfInterest.id == MIDDLE /* #2 */){
-/*            //intake cone
-            robot.endServo.setPosition(0.5); //suck it in *schlorp*
-
-            // strafe left one tile
-            blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(-oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 50);
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);*/
-
-            // forward one tile
-            blPower = 0.3;
-            brPower = 0.3;
-            flPower = 0.3;
-            frPower = 0.3;
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(oneTile);
-
-            robot.backLeft.setPower(0);
-            robot.backRight.setPower(0);
-            robot.frontLeft.setPower(0);
-            robot.frontRight.setPower(0);
-
-/*            //left 1/2 tile
-            blPower = DrivePIDController.PIDControl(oneTile / 2, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(-oneTile / 2, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(-oneTile / 2, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontRight.getCurrentPosition(), 50);
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);
-
-            //raise arm to highest level
-            leftArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.leftArmMotor.getCurrentPosition(), 50);
-            rightArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.rightArmMotor.getCurrentPosition(), 50);
-
-            robot.leftArmMotor.setPower(leftArmPower);
-            robot.rightArmMotor.setPower(rightArmPower);
-
-            sleep(500);
-
-            // drop cone
-            robot.endServo.setPosition(0); //spit it out *burp*
-
-            sleep(500);
-
-            // drop arm
-            leftArmPower = ArmPIDController.PIDControl(0, robot.leftArmMotor.getCurrentPosition());
-            rightArmPower = ArmPIDController.PIDControl(0, robot.rightArmMotor.getCurrentPosition());
-
-            robot.leftArmMotor.setPower(leftArmPower);
-            robot.rightArmMotor.setPower(rightArmPower);
-
-            sleep(500);
-
-            // strafe one tile right
-            blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);
-
-            //strafe one tile right
-            blPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), 50);
-            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 50);
-            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 50);
-            frPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), 50);
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);*/
+            //right tile
 
             telemetry.addData("Robot", "MIDDLE");
             telemetry.update();
         } else if (tagOfInterest.id == RIGHT /*#3*/){
-/*            //intake cone
-            robot.endServo.setPosition(1.0); //suck it in *schlorp*
-
-            // strafe left one tile
-            blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition());
-            brPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition());
-            flPower = DrivePIDController.PIDControl(-oneTile, robot.frontLeft.getCurrentPosition());
-            frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition());
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);*/
-
-            // forward one tile
-            blPower = 0.3;
-            brPower = 0.3;
-            flPower = 0.3;
-            frPower = 0.3;
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(oneTile);
-
-            robot.backLeft.setPower(0);
-            robot.backRight.setPower(0);
-            robot.frontLeft.setPower(0);
-            robot.frontRight.setPower(0);
-
-/*            //left 1/2 tile
-            blPower = DrivePIDController.PIDControl(oneTile / 2, robot.backLeft.getCurrentPosition());
-            brPower = DrivePIDController.PIDControl(-oneTile / 2, robot.backRight.getCurrentPosition());
-            flPower = DrivePIDController.PIDControl(-oneTile / 2, robot.frontLeft.getCurrentPosition());
-            frPower = DrivePIDController.PIDControl(oneTile / 2, robot.frontRight.getCurrentPosition());
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);
-
-            //raise arm to highest level
-            leftArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.leftArmMotor.getCurrentPosition());
-            rightArmPower = ArmPIDController.PIDControl(highTargetPosition, robot.rightArmMotor.getCurrentPosition());
-
-            robot.leftArmMotor.setPower(leftArmPower);
-            robot.rightArmMotor.setPower(rightArmPower);
-
-            sleep(500);
-
-            // drop cone
-            robot.endServo.setPosition(0); //spit it out *burp*
-
-            sleep(500);
-
-            // drop arm
-            leftArmPower = ArmPIDController.PIDControl(0, robot.leftArmMotor.getCurrentPosition());
-            rightArmPower = ArmPIDController.PIDControl(0, robot.rightArmMotor.getCurrentPosition());
-
-            robot.leftArmMotor.setPower(leftArmPower);
-            robot.rightArmMotor.setPower(rightArmPower);
-
-            sleep(500);*/
-
-            // strafe one tile right
-            blPower = 0.3;
-            brPower = 0.3;
-            flPower = 0.3;
-            frPower = 0.3;
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(oneTile);
-
-            robot.backLeft.setPower(0);
-            robot.backRight.setPower(0);
-            robot.frontLeft.setPower(0);
-            robot.frontRight.setPower(0);
-
-/*            //strafe two tiles right
-            blPower = DrivePIDController.PIDControl(-oneTile * 2, robot.backLeft.getCurrentPosition());
-            brPower = DrivePIDController.PIDControl(oneTile * 2, robot.backRight.getCurrentPosition());
-            flPower = DrivePIDController.PIDControl(oneTile * 2, robot.frontLeft.getCurrentPosition());
-            frPower = DrivePIDController.PIDControl(-oneTile * 2, robot.frontRight.getCurrentPosition());
-
-            robot.backLeft.setPower(blPower);
-            robot.backRight.setPower(brPower);
-            robot.frontLeft.setPower(flPower);
-            robot.frontRight.setPower(frPower);
-
-            sleep(500);
+            //two right tile
 
             telemetry.addData("Robot", "RIGHT");
-            telemetry.update();*/
+            telemetry.update();
         }
     }
 
@@ -485,5 +179,48 @@ public class BlueTerminalAuto extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
         telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
+    }
+
+    // encoder ticks to move ONE tile forward. EXACTLY
+    int oneTile = 0;
+    //encoder ticks to lift arm to HIGHEST level. 7465
+    int highTargetPosition = 0;
+
+    // Drivetrain power values
+    double blPower;
+    double brPower;
+    double flPower;
+    double frPower;
+
+    // Arm power values
+    double leftArmPower;
+    double rightArmPower;
+
+    void strafeLeft(){
+        robot.frontRight.setPower(-oneTile);
+        robot.frontLeft.setPower(oneTile);
+        robot.backRight.setPower(-oneTile);
+        robot.backLeft.setPower(oneTile);
+    }
+
+    void strafeRight(){
+        robot.frontRight.setPower(oneTile);
+        robot.frontLeft.setPower(-oneTile);
+        robot.backRight.setPower(oneTile);
+        robot.backLeft.setPower(-oneTile);
+    }
+
+    void moveForward(){
+        robot.frontRight.setPower(oneTile);
+        robot.frontLeft.setPower(oneTile);
+        robot.backRight.setPower(oneTile);
+        robot.backLeft.setPower(oneTile);
+    }
+
+    void moveBackward(){
+        robot.frontRight.setPower(-oneTile);
+        robot.frontLeft.setPower(-oneTile);
+        robot.backRight.setPower(-oneTile);
+        robot.backLeft.setPower(-oneTile);
     }
 }

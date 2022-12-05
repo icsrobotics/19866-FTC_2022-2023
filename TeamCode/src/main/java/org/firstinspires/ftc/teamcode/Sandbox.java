@@ -66,7 +66,8 @@ public class Sandbox extends LinearOpMode{
             telemetry.addData("Front Left Motor", robot.frontLeft.getCurrentPosition());
             telemetry.addData("Front Right Motor", robot.frontRight.getCurrentPosition());
 
-            telemetry.addData("Error Value", DrivePIDControl.error);
+            telemetry.addData("Error Value For Drivetrain", DrivePIDControl.error);
+            telemetry.addData("Error Value For Arm", ArmPIDControl.error);
 
             telemetry.update();
         }
