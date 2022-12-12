@@ -64,7 +64,7 @@ public class RobotHardware {
         backLeft.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
 
-        // ARM STUFF
+/*        // ARM STUFF
         leftArmMotor = myOpMode.hardwareMap.dcMotor.get("Left_Arm");
         rightArmMotor = myOpMode.hardwareMap.dcMotor.get("Right_Arm");
 
@@ -79,7 +79,7 @@ public class RobotHardware {
 
 
         //SERVO STUFF
-        endServo = myOpMode.hardwareMap.servo.get("End_Servo");
+        endServo = myOpMode.hardwareMap.servo.get("End_Servo");*/
 
         //IMU Stuff
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
