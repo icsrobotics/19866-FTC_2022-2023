@@ -108,47 +108,4 @@ public class RobotHardware {
         myOpMode.telemetry.addData(">", "Hardware Initialized");
         myOpMode.telemetry.update();
     }
-
-    // encoder ticks to move ONE tile forward. EXACTLY
-    int oneTile = 0;
-    //encoder ticks to lift arm to HIGHEST level. 7465
-    int highTargetPosition = 0;
-
-    // Drivetrain power values
-    double blPower;
-    double brPower;
-    double flPower;
-    double frPower;
-
-    // Arm power values
-    double leftArmPower;
-    double rightArmPower;
-
-    void strafeLeft(){
-        robot.frontRight.setPower(-oneTile);
-        robot.frontLeft.setPower(oneTile);
-        robot.backRight.setPower(-oneTile);
-        robot.backLeft.setPower(oneTile);
-    }
-
-    void strafeRight(){
-        frontRight.setPower(oneTile);
-        frontLeft.setPower(-oneTile);
-        backRight.setPower(oneTile);
-        backLeft.setPower(-oneTile);
-    }
-
-    void moveForward(){
-        robot.frontRight.setPower(oneTile);
-        robot.frontLeft.setPower(oneTile);
-        robot.backRight.setPower(oneTile);
-        robot.backLeft.setPower(oneTile);
-    }
-
-    void moveBackward(){
-        robot.frontRight.setPower(-oneTile);
-        robot.frontLeft.setPower(-oneTile);
-        robot.backRight.setPower(-oneTile);
-        robot.backLeft.setPower(-oneTile);
-    }
 }
