@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.teamcode.MyPIDController;
 
 public class RobotHardware {
 
@@ -31,7 +32,7 @@ public class RobotHardware {
     // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
     public boolean intakeToggle = false;
     // encoder ticks to move ONE tile forward. EXACTLY
-    int oneTile = 0;
+    int oneTile = 1075;
     //encoder ticks to lift arm to HIGHEST level. 7465
     int highTargetPosition = 0;
 
@@ -112,6 +113,7 @@ public class RobotHardware {
 
     public void strafeLeft(){
         frontRight.setPower(-oneTile);
+
         frontLeft.setPower(oneTile);
         backRight.setPower(-oneTile);
         backLeft.setPower(oneTile);
