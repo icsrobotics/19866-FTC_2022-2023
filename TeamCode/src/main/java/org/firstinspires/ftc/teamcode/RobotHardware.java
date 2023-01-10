@@ -109,6 +109,7 @@ public class RobotHardware {
         imu = myOpMode.hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
     }
+
     public void strafeLeft(){
         frontRight.setPower(-oneTile);
         frontLeft.setPower(oneTile);
@@ -135,5 +136,12 @@ public class RobotHardware {
         frontLeft.setPower(-oneTile);
         backRight.setPower(-oneTile);
         backLeft.setPower(-oneTile);
+    }
+
+    public void powerZero(){
+        frontRight.setPower(0);
+        frontLeft.setPower(0);
+        backRight.setPower(0);
+        backLeft.setPower(0);
     }
 }

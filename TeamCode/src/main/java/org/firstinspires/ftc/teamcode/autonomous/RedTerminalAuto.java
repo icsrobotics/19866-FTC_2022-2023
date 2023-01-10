@@ -112,19 +112,30 @@ public class RedTerminalAuto extends LinearOpMode {
             // drop arm
             //left 1/2 tile
 
+        robot.moveForward();
+
         if(tagOfInterest == null || tagOfInterest.id == LEFT /*#1 */) {
             //two tiles left
+            robot.strafeLeft();
+            sleep(1000);
+            robot.strafeLeft();
+
+            robot.powerZero();
 
             telemetry.addData("Robot", "LEFT OR NOT DETECTED");
             telemetry.update();
         } else if(tagOfInterest.id == MIDDLE /*#2*/){
             //one tiles left
+            robot.strafeLeft();
+
+            robot.powerZero();
 
             telemetry.addData("Robot", "MIDDLE");
             telemetry.update();
 
         } else if (tagOfInterest.id == RIGHT /*#3*/){
             // stay still
+            robot.powerZero();
 
             telemetry.addData("Robot", "RIGHT");
             telemetry.update();

@@ -103,29 +103,40 @@ public class BlueTerminalAuto extends LinearOpMode {
         //The START command just came in: now work off the latest snapshot acquired during the init loop.
 
         //ACTUAL CODE
-        //GENERAL:
-            // suck in cone
-            // left tile
-            //forward tile
-            // left 1/2 tile
-            //raise arm
-            //drop cone
-            // drop arm
-            //right 1/2 tile
+        //GENERAL (when arm starts working):
+        // suck in cone
+        // left tile
+        //forward tile
+        // left 1/2 tile
+        //raise arm
+        //drop cone
+        // drop arm
+        //right 1/2 tile
+
+        // FORWARD
+        robot.moveForward();
 
         if(tagOfInterest == null || tagOfInterest.id == LEFT /*#1*/) {
             // stay still
+            robot.powerZero();
 
             telemetry.addData("Robot", "LEFT OR NOT DETECTED");
             telemetry.update();
-
         } else if(tagOfInterest.id == MIDDLE /* #2 */){
             //right tile
+            robot.strafeRight();
+
+            robot.powerZero();
 
             telemetry.addData("Robot", "MIDDLE");
             telemetry.update();
         } else if (tagOfInterest.id == RIGHT /*#3*/){
             //two right tile
+            robot.strafeRight();
+            sleep(1000);
+            robot.strafeRight();
+
+            robot.powerZero();
 
             telemetry.addData("Robot", "RIGHT");
             telemetry.update();
