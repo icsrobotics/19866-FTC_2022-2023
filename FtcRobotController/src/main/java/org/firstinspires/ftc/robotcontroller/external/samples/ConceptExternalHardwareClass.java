@@ -95,9 +95,6 @@ public class ConceptExternalHardwareClass extends LinearOpMode {
             drive = -gamepad1.left_stick_y;
             turn  =  gamepad1.right_stick_x;
 
-            // Combine drive and turn for blended motion. Use RobotHardware class
-            robot.driveRobot(drive, turn);
-
             // Use gamepad left & right Bumpers to open and close the claw
             // Use the SERVO constants defined in RobotHardware class.
             // Each time around the loop, the servos will move by a small amount.
@@ -108,8 +105,6 @@ public class ConceptExternalHardwareClass extends LinearOpMode {
                 handOffset -= robot.HAND_SPEED;
             handOffset = Range.clip(handOffset, -0.5, 0.5);
 
-            // Move both servos to new position.  Use RobotHardware class
-            robot.setHandPositions(handOffset);
 
             // Use gamepad buttons to move arm up (Y) and down (A)
             // Use the MOTOR constants defined in RobotHardware class.
@@ -119,8 +114,6 @@ public class ConceptExternalHardwareClass extends LinearOpMode {
                 arm = robot.ARM_DOWN_POWER;
             else
                 arm = 0;
-
-            robot.setArmPower(arm);
 
             // Send telemetry messages to explain controls and show robot status
             telemetry.addData("Drive", "Left Stick");

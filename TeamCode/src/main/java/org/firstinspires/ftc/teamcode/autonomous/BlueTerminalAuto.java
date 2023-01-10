@@ -123,7 +123,7 @@ public class BlueTerminalAuto extends LinearOpMode {
             telemetry.addData("Robot", "LEFT OR NOT DETECTED");
             telemetry.update();
         } else if(tagOfInterest.id == MIDDLE /* #2 */){
-            //right tile
+            //right tilegit add
             robot.strafeRight();
 
             robot.powerZero();
