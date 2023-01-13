@@ -5,7 +5,6 @@ import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-
 @Config
 @TeleOp(name = "Sandbox", group = "Linear Opmode")
 public class Sandbox extends LinearOpMode {
