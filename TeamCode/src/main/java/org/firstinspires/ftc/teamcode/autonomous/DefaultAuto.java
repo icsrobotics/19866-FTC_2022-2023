@@ -1,5 +1,7 @@
-// Refrenced code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AprilTagAutonomousInitDetectionExample.java
 package org.firstinspires.ftc.teamcode.autonomous;
+
+// Refrenced code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AprilTagAutonomousInitDetectionExample.java
+
 
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RESET_ENCODERS;
 
@@ -22,8 +24,8 @@ import org.firstinspires.ftc.teamcode.MyPIDController;
 import java.util.ArrayList;
 
 @Config
-@Autonomous(name = "Blue Terminal Autonomous", group = "Linear Opmode")
-public class BlueTerminalAuto extends LinearOpMode {
+@Autonomous(name = "Defualt Autonomous", group = "Linear Opmode")
+public class DefaultAuto extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
     RobotHardware robot = new RobotHardware(this);
@@ -47,10 +49,6 @@ public class BlueTerminalAuto extends LinearOpMode {
     int LEFT = 6;
     int MIDDLE = 7;
     int RIGHT = 8;
-
-    //Drivetrain values
-    double oneTile = 1075;
-    double errorRange = 10;
 
     AprilTagDetection tagOfInterest = null;
 
@@ -80,8 +78,7 @@ public class BlueTerminalAuto extends LinearOpMode {
         telemetry.setMsTransmissionInterval(50);
 
         //The INIT-loop: This REPLACES waitForStart!
-        while (!isStarted() && !isStopRequested())
-        {
+        while (!isStarted() && !isStopRequested()) {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
             if(currentDetections.size() != 0)
@@ -138,95 +135,86 @@ public class BlueTerminalAuto extends LinearOpMode {
             telemetry.update();
             sleep(20);
         }
+        robot.init();
 
         // The START command just came in: now work off the latest snapshot acquired during the init loop
         /* Update the telemetry */
-        if(tagOfInterest != null)
-        {
+        if(tagOfInterest != null) {
             telemetry.addLine("Tag snapshot:\n");
             tagToTelemetry(tagOfInterest);
             telemetry.update();
-        }
-        else
-        {
+        } else {
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
         }
 
         /* Actually do something useful */
-        double leftBlPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), errorRange);
-        double leftFlPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
-        double leftBrPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition(), errorRange);
-        double leftFrPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), errorRange);
+        /*
+         * 1. Forward
+         * 2. Move to parking space
+         *  a. Strafe left for #6 barcode / 1
+         *  b. Stay still for #7 barcode / 2
+         *  c. Strafe right for #8 barcode / 3
+         * 3. Have fun
+         * GOOD LUCK!
+         */
 
-        //Strafe right
-        double rightBlPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), errorRange);
-        double rightFlPower = DrivePIDController.PIDControl(-oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
-        double rightBrPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), errorRange);
-        double rightFrPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), errorRange);
+        //Drivetrain values
+        double oneTile = 1075;
+        double errorRange = 10;
 
-        //Forward
-        double forwardBlPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), errorRange);
-        double forwardFlPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
-        double forwardBrPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), errorRange);
-        double forwardFrPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), errorRange);
-
-        //Backward
-        double backBlPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), errorRange);
-        double backFlPower = DrivePIDController.PIDControl(-oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
-        double backBrPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition(), errorRange);
-        double backFrPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), errorRange);
+        //Power
+        double blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), errorRange);
+        double flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
+        double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), errorRange);
+        double frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), errorRange);
 
         if(tagOfInterest == null){
             //default trajectory here if preferred
             // FORWARD
-            robot.frontRight.setPower(forwardBlPower);
-            robot.frontLeft.setPower(forwardFlPower);
-            robot.backRight.setPower(forwardBrPower);
-            robot.backLeft.setPower(forwardFrPower);
+            robot.frontRight.setPower(frPower);
+            robot.frontLeft.setPower(flPower);
+            robot.backRight.setPower(brPower);
+            robot.backLeft.setPower(blPower);
 
-        }else if(tagOfInterest.id != LEFT){
-            //left trajectory
+        }else if(tagOfInterest.id == LEFT /**/){
+            //left trajectory - 1
+
             // FORWARD
-            robot.frontRight.setPower(forwardBlPower);
-            robot.frontLeft.setPower(forwardFlPower);
-            robot.backRight.setPower(forwardBrPower);
-            robot.backLeft.setPower(forwardFrPower);
+            robot.frontRight.setPower(frPower);
+            robot.frontLeft.setPower(flPower);
+            robot.backRight.setPower(brPower);
+            robot.backLeft.setPower(blPower);
+
+            //LEFT
+            robot.frontRight.setPower(frPower);
+            robot.frontLeft.setPower(-flPower);
+            robot.backRight.setPower(-brPower);
+            robot.backLeft.setPower(blPower);
 
         }else if(tagOfInterest.id == MIDDLE){
-            //middle trajectory
-            // FORWARD
-            robot.frontRight.setPower(forwardBlPower);
-            robot.frontLeft.setPower(forwardFlPower);
-            robot.backRight.setPower(forwardBrPower);
-            robot.backLeft.setPower(forwardFrPower);
+            //middle trajectory - 2
 
-            //right tile
-            robot.frontRight.setPower(rightBlPower);
-            robot.frontLeft.setPower(rightFlPower);
-            robot.backRight.setPower(rightBrPower);
-            robot.backLeft.setPower(rightFrPower);
+            // FORWARD
+            robot.frontRight.setPower(frPower);
+            robot.frontLeft.setPower(flPower);
+            robot.backRight.setPower(brPower);
+            robot.backLeft.setPower(blPower);
 
         }else{
             //right trajectory - 3
 
             // FORWARD
-            robot.frontRight.setPower(forwardBlPower);
-            robot.frontLeft.setPower(forwardFlPower);
-            robot.backRight.setPower(forwardBrPower);
-            robot.backLeft.setPower(forwardFrPower);
+            robot.frontRight.setPower(frPower);
+            robot.frontLeft.setPower(flPower);
+            robot.backRight.setPower(brPower);
+            robot.backLeft.setPower(blPower);
 
-            //two right tile
-            robot.frontRight.setPower(rightBlPower);
-            robot.frontLeft.setPower(rightFlPower);
-            robot.backRight.setPower(rightBrPower);
-            robot.backLeft.setPower(rightFrPower);
-            sleep(1000);
-            robot.frontRight.setPower(rightBlPower);
-            robot.frontLeft.setPower(rightFlPower);
-            robot.backRight.setPower(rightBrPower);
-            robot.backLeft.setPower(rightFrPower);
-
+            //RIGHT
+            robot.frontRight.setPower(-frPower);
+            robot.frontLeft.setPower(flPower);
+            robot.backRight.setPower(brPower);
+            robot.backLeft.setPower(-blPower);
 
             telemetry.addData("Robot", "RIGHT");
             telemetry.update();

@@ -33,10 +33,10 @@ public class Sandbox extends LinearOpMode {
             brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 10);
             blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 10);
 
-            robot.frontRight.setPower(frPower);
-            robot.frontLeft.setPower(flPower);
-            robot.backRight.setPower(brPower);
-            robot.backLeft.setPower(blPower);
+            robot.frontRight.setPower(-frPower);
+            robot.frontLeft.setPower(-flPower);
+            robot.backRight.setPower(-brPower);
+            robot.backLeft.setPower(-blPower);
 
 
             telemetry.addData("Back Left Motor", robot.backLeft.getCurrentPosition());

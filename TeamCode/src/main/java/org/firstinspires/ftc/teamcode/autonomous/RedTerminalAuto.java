@@ -25,7 +25,7 @@ public class RedTerminalAuto extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
     RobotHardware robot = new RobotHardware(this);
-    MyPIDController DrivePIDController = new MyPIDController(0.07, 0.05, 0.01);
+    MyPIDController DrivePIDController = new MyPIDController(0.05, 0, 0);
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -53,10 +53,7 @@ public class RedTerminalAuto extends LinearOpMode {
     AprilTagDetection tagOfInterest = null;
 
     @Override
-    public void runOpMode()
-    {
-        robot.init();
-
+    public void runOpMode() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
@@ -161,6 +158,8 @@ public class RedTerminalAuto extends LinearOpMode {
         }
 
         /* Actually do something useful */
+        robot.init();
+
         double leftBlPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), errorRange);
         double leftFlPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
         double leftBrPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition(), errorRange);
@@ -192,10 +191,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.backRight.setPower(forwardBrPower);
             robot.backLeft.setPower(forwardFrPower);
 
-            robot.frontRight.setPower(0);
-            robot.frontLeft.setPower(0);
-            robot.backRight.setPower(0);
-            robot.backLeft.setPower(0);
         }else if(tagOfInterest.id != LEFT){
             //left trajectory
             // FORWARD
@@ -204,10 +199,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.backRight.setPower(forwardBrPower);
             robot.backLeft.setPower(forwardFrPower);
 
-            robot.frontRight.setPower(0);
-            robot.frontLeft.setPower(0);
-            robot.backRight.setPower(0);
-            robot.backLeft.setPower(0);
         }else if(tagOfInterest.id == MIDDLE){
             //middle trajectory
             // FORWARD
@@ -222,10 +213,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.backRight.setPower(leftBrPower);
             robot.backLeft.setPower(leftFrPower);
 
-            robot.frontRight.setPower(0);
-            robot.frontLeft.setPower(0);
-            robot.backRight.setPower(0);
-            robot.backLeft.setPower(0);
         }else{
             //right trajectory
 
@@ -246,10 +233,6 @@ public class RedTerminalAuto extends LinearOpMode {
             robot.backRight.setPower(leftBrPower);
             robot.backLeft.setPower(leftFrPower);
 
-            robot.frontRight.setPower(0);
-            robot.frontLeft.setPower(0);
-            robot.backRight.setPower(0);
-            robot.backLeft.setPower(0);
 
             telemetry.addData("Robot", "RIGHT");
             telemetry.update();
