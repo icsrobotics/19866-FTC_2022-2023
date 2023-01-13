@@ -33,10 +33,7 @@ public class DefaultAuto extends LinearOpMode {
 
     static final double FEET_PER_METER = 3.28084;
 
-    // Lens intrinsics
-    // UNITS ARE PIXELS
-    // NOTE: this calibration is for the C920 webcam at 800x448.
-    // You will need to do your own calibration for other configurations!
+    //Lens intrinsics: UNITS ARE PIXELS!
     double fx = 578.272;
     double fy = 578.272;
     double cx = 402.145;
@@ -53,25 +50,18 @@ public class DefaultAuto extends LinearOpMode {
     AprilTagDetection tagOfInterest = null;
 
     @Override
-    public void runOpMode()
-    {
+    public void runOpMode() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
-        {
-            @Override
-            public void onOpened()
-            {
-                camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);
-            }
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override public void onOpened() {camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT);}
 
-            @Override
-            public void onError(int errorCode)
-            {
-
+            @Override public void onError(int errorCode) {
+                telemetry.addData("Robot", "In Peril. God Bless");
+                telemetry.update();
             }
         });
 
@@ -149,6 +139,8 @@ public class DefaultAuto extends LinearOpMode {
         }
 
         /* Actually do something useful */
+
+        // GAMEPLAN!!
         /*
          * 1. Forward
          * 2. Move to parking space
@@ -169,7 +161,7 @@ public class DefaultAuto extends LinearOpMode {
         double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), errorRange);
         double frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), errorRange);
 
-        if(tagOfInterest == null){
+        if(tagOfInterest == null) {
             //default trajectory here if preferred
             // FORWARD
             robot.frontRight.setPower(frPower);
@@ -177,7 +169,7 @@ public class DefaultAuto extends LinearOpMode {
             robot.backRight.setPower(brPower);
             robot.backLeft.setPower(blPower);
 
-        }else if(tagOfInterest.id == LEFT /**/){
+        } else if(tagOfInterest.id == LEFT) {
             //left trajectory - 1
 
             // FORWARD
@@ -192,7 +184,9 @@ public class DefaultAuto extends LinearOpMode {
             robot.backRight.setPower(-brPower);
             robot.backLeft.setPower(blPower);
 
-        }else if(tagOfInterest.id == MIDDLE){
+            telemetry.addData("Robot", "LEFT");
+            telemetry.update();
+        } else if(tagOfInterest.id == MIDDLE) {
             //middle trajectory - 2
 
             // FORWARD
@@ -201,7 +195,9 @@ public class DefaultAuto extends LinearOpMode {
             robot.backRight.setPower(brPower);
             robot.backLeft.setPower(blPower);
 
-        }else{
+            telemetry.addData("Robot", "MIDDLE");
+            telemetry.update();
+        } else {
             //right trajectory - 3
 
             // FORWARD
@@ -219,14 +215,9 @@ public class DefaultAuto extends LinearOpMode {
             telemetry.addData("Robot", "RIGHT");
             telemetry.update();
         }
-
-
-        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
-        while (opModeIsActive()) {sleep(20);}
     }
 
-    void tagToTelemetry(AprilTagDetection detection)
-    {
+    void tagToTelemetry(AprilTagDetection detection) {
         telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
         telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
         telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
@@ -236,38 +227,3 @@ public class DefaultAuto extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 }
-    /*public void strafeLeft(){
-        robot.frontRight.setPower(leftBlPower);
-        robot.frontLeft.setPower(leftFlPower);
-        robot.backRight.setPower(leftBrPower);
-        robot.backLeft.setPower(leftFrPower);
-    }
-
-    public void strafeRight(){
-        robot.frontRight.setPower(rightBlPower);
-        robot.frontLeft.setPower(rightFlPower);
-        robot.backRight.setPower(rightBrPower);
-        robot.backLeft.setPower(rightFrPower);
-    }
-
-    public void moveForward(){
-        robot.frontRight.setPower(forwardBlPower);
-        robot.frontLeft.setPower(forwardFlPower);
-        robot.backRight.setPower(forwardBrPower);
-        robot.backLeft.setPower(forwardFrPower);
-    }
-
-    public void moveBackward(){
-        robot.frontRight.setPower(backBlPower);
-        robot.frontLeft.setPower(backFlPower);
-        robot.backRight.setPower(backBrPower);
-        robot.backLeft.setPower(backFrPower);
-    }
-
-    public void powerZero(){
-        robot.frontRight.setPower(0);
-        robot.frontLeft.setPower(0);
-        robot.backRight.setPower(0);
-        robot.backLeft.setPower(0);
-    }*/
-
