@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.acmerobotics.dashboard.config.Config;
 
@@ -19,6 +20,7 @@ import org.firstinspires.ftc.teamcode.MyPIDController;
 
 import java.util.ArrayList;
 
+@Disabled
 @Config
 @Autonomous(name = "Red Terminal Autonomous", group = "Linear Opmode")
 public class RedTerminalAuto extends LinearOpMode {

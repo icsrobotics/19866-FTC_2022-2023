@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RESET_ENCODERS;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.acmerobotics.dashboard.config.Config;
 
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.teamcode.MyPIDController;
 
 import java.util.ArrayList;
 
+@Disabled
 @Config
 @Autonomous(name = "Blue Terminal Autonomous", group = "Linear Opmode")
 public class BlueTerminalAuto extends LinearOpMode {
