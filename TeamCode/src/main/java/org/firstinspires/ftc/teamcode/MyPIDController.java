@@ -15,7 +15,7 @@ public class MyPIDController {
     private double lastIntegral = 0;
 
     ElapsedTime timer = new ElapsedTime();
-    double currentTime, elapsedTime, previousTime;
+    double currentTime = timer.seconds();;
 
     public MyPIDController (double P, double I, double D) {
         this.Kp = P;
@@ -26,12 +26,9 @@ public class MyPIDController {
     // refrence = setpoint you want
     // state = what the motor or servo is outputting usually acsessed by .getwhatever()
     public double PIDControl (double reference, double state, double error_range) {
-        currentTime = timer.seconds();
-        elapsedTime = (double)(currentTime - previousTime);
-
         error = reference - state;
-        double derivative = (error - lastError) / elapsedTime;
-        double integral =  (error + lastIntegral) * elapsedTime;
+        double derivative = (error - lastError) / currentTime;
+        double integral =  (error + lastIntegral) * currentTime;
 
         // Setting all of the stuff after power or whatever applied
         lastError = error;

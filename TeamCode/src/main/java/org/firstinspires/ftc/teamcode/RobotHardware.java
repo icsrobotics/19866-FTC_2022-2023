@@ -31,20 +31,6 @@ public class RobotHardware {
 
     // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
     public boolean intakeToggle = false;
-    // encoder ticks to move ONE tile forward. EXACTLY
-    int oneTile = 1075;
-    //encoder ticks to lift arm to HIGHEST level. 7465
-    int highTargetPosition = 0;
-
-    // Drivetrain power values
-    double blPower;
-    double brPower;
-    double flPower;
-    double frPower;
-
-    // Arm power values
-    double leftArmPower;
-    double rightArmPower;
 
     // Define a constructor that allows the OpMode to pass a reference to itself.
     public RobotHardware (LinearOpMode opmode) {
@@ -109,41 +95,5 @@ public class RobotHardware {
         // and named "imu".
         imu = myOpMode.hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
-    }
-
-    public void strafeLeft(){
-        frontRight.setPower(-oneTile);
-
-        frontLeft.setPower(oneTile);
-        backRight.setPower(-oneTile);
-        backLeft.setPower(oneTile);
-    }
-
-    public void strafeRight(){
-        frontRight.setPower(oneTile);
-        frontLeft.setPower(-oneTile);
-        backRight.setPower(oneTile);
-        backLeft.setPower(-oneTile);
-    }
-
-    public void moveForward(){
-        frontRight.setPower(oneTile);
-        frontLeft.setPower(oneTile);
-        backRight.setPower(oneTile);
-        backLeft.setPower(oneTile);
-    }
-
-    public void moveBackward(){
-        frontRight.setPower(-oneTile);
-        frontLeft.setPower(-oneTile);
-        backRight.setPower(-oneTile);
-        backLeft.setPower(-oneTile);
-    }
-
-    public void powerZero(){
-        frontRight.setPower(0);
-        frontLeft.setPower(0);
-        backRight.setPower(0);
-        backLeft.setPower(0);
     }
 }

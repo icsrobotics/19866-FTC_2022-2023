@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 @Config
 @TeleOp(name = "Sandbox", group = "Linear Opmode")
 public class Sandbox extends LinearOpMode {
-    int oneTile = 500;
+    int oneTile = 1075;
 
     // Drivetrain power values
     double blPower;
@@ -33,10 +33,10 @@ public class Sandbox extends LinearOpMode {
             brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 10);
             blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 10);
 
-            robot.frontRight.setPower(oneTile);
-            robot.frontLeft.setPower(oneTile);
-            robot.backRight.setPower(oneTile);
-            robot.backLeft.setPower(oneTile);
+            robot.frontRight.setPower(frPower);
+            robot.frontLeft.setPower(flPower);
+            robot.backRight.setPower(brPower);
+            robot.backLeft.setPower(blPower);
 
 
             telemetry.addData("Back Left Motor", robot.backLeft.getCurrentPosition());

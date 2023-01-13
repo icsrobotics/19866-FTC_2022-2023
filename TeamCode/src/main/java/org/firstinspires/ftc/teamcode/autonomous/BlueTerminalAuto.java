@@ -1,6 +1,8 @@
 // Refrenced code: https://github.com/cobalt-colts/AprilTag-Workshop/blob/master/TeamCode/src/main/java/org/firstinspires/ftc/teamcode/auton/AprilTagAutonomousInitDetectionExample.java
 package org.firstinspires.ftc.teamcode.autonomous;
 
+import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RESET_ENCODERS;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.acmerobotics.dashboard.config.Config;
@@ -24,14 +26,11 @@ import java.util.ArrayList;
 public class BlueTerminalAuto extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
-
     RobotHardware robot = new RobotHardware(this);
-
     MyPIDController DrivePIDController = new MyPIDController(0.07, 0.05, 0.01);
-    MyPIDController ArmPIDController = new MyPIDController(0.05, 0, 0);
 
+    static final double FEET_PER_METER = 3.28084;
 
-    // PUT CAMERA IN USB 2.0 PORT!!!
     // Lens intrinsics
     // UNITS ARE PIXELS
     // NOTE: this calibration is for the C920 webcam at 800x448.
@@ -41,32 +40,30 @@ public class BlueTerminalAuto extends LinearOpMode {
     double cx = 402.145;
     double cy = 221.506;
 
-    static final double FEET_PER_METER = 3.28084;
-
-    // UNITS ARE METERS. maybe we can measure this but later on just to tune it :)
+    // UNITS ARE METERS
     double tagsize = 0.166;
 
-     // Tag ID 1,2,3 from the 36h11 family. CHANGED TO OUR TAGS
+    // Tag ID 1,2,3 from the 36h11 family
     int LEFT = 6;
     int MIDDLE = 7;
     int RIGHT = 8;
 
+    //Drivetrain values
+    double oneTile = 1075;
+    double errorRange = 10;
+
     AprilTagDetection tagOfInterest = null;
 
-    public void runOpMode() {
-        FtcDashboard dashboard = FtcDashboard.getInstance();
-        telemetry = dashboard.getTelemetry();
-        FtcDashboard.getInstance().startCameraStream(camera, 10); //0 originally
-        telemetry.setMsTransmissionInterval(50);
-
-        robot.init();
-
+    @Override
+    public void runOpMode()
+    {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener()
+        {
             @Override
             public void onOpened()
             {
@@ -74,72 +71,238 @@ public class BlueTerminalAuto extends LinearOpMode {
             }
 
             @Override
-            public void onError(int errorCode) {
+            public void onError(int errorCode)
+            {
 
             }
         });
 
-        //The INIT-loop: This REPLACES waitForStart!
-        while (!isStarted() && !isStopRequested()) {
+        telemetry.setMsTransmissionInterval(50);
+
+        /*
+         * The INIT-loop:
+         * This REPLACES waitForStart!
+         */
+        while (!isStarted() && !isStopRequested())
+        {
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            if(currentDetections.size() != 0) {
+            if(currentDetections.size() != 0)
+            {
                 boolean tagFound = false;
 
-                for(AprilTagDetection tag : currentDetections) {
-                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                for(AprilTagDetection tag : currentDetections)
+                {
+                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT)
+                    {
                         tagOfInterest = tag;
+                        tagFound = true;
                         break;
                     }
                 }
-            } else {
-                telemetry.addLine("Don't see tag of interest");
+
+                if(tagFound)
+                {
+                    telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                    tagToTelemetry(tagOfInterest);
+                }
+                else
+                {
+                    telemetry.addLine("Don't see tag of interest :(");
+
+                    if(tagOfInterest == null)
+                    {
+                        telemetry.addLine("(The tag has never been seen)");
+                    }
+                    else
+                    {
+                        telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                        tagToTelemetry(tagOfInterest);
+                    }
+                }
+
+            }
+            else
+            {
+                telemetry.addLine("Don't see tag of interest :(");
+
+                if(tagOfInterest == null)
+                {
+                    telemetry.addLine("(The tag has never been seen)");
+                }
+                else
+                {
+                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
             }
 
             telemetry.update();
             sleep(20);
         }
 
-        //The START command just came in: now work off the latest snapshot acquired during the init loop.
+        /*
+         * The START command just came in: now work off the latest snapshot acquired
+         * during the init loop.
+         */
 
-        //ACTUAL CODE
-        //GENERAL (when arm starts working):
-        // suck in cone
-        // left tile
-        //forward tile
-        // left 1/2 tile
-        //raise arm
-        //drop cone
-        // drop arm
-        //right 1/2 tile
-
-        // FORWARD
-        robot.moveForward();
-
-        if(tagOfInterest == null || tagOfInterest.id == LEFT /*#1*/) {
-            // stay still
-            robot.powerZero();
-
-            telemetry.addData("Robot", "LEFT OR NOT DETECTED");
+        /* Update the telemetry */
+        if(tagOfInterest != null)
+        {
+            telemetry.addLine("Tag snapshot:\n");
+            tagToTelemetry(tagOfInterest);
             telemetry.update();
-        } else if(tagOfInterest.id == MIDDLE /* #2 */){
-            //right tilegit add
-            robot.strafeRight();
-
-            robot.powerZero();
-
-            telemetry.addData("Robot", "MIDDLE");
+        }
+        else
+        {
+            telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
             telemetry.update();
-        } else if (tagOfInterest.id == RIGHT /*#3*/){
-            //two right tile
-            robot.strafeRight();
+        }
+
+        /* Actually do something useful */
+        double leftBlPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), errorRange);
+        double leftFlPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
+        double leftBrPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition(), errorRange);
+        double leftFrPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), errorRange);
+
+        //Strafe right
+        double rightBlPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), errorRange);
+        double rightFlPower = DrivePIDController.PIDControl(-oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
+        double rightBrPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), errorRange);
+        double rightFrPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), errorRange);
+
+        //Forward
+        double forwardBlPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), errorRange);
+        double forwardFlPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
+        double forwardBrPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), errorRange);
+        double forwardFrPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), errorRange);
+
+        //Backward
+        double backBlPower = DrivePIDController.PIDControl(-oneTile, robot.backLeft.getCurrentPosition(), errorRange);
+        double backFlPower = DrivePIDController.PIDControl(-oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
+        double backBrPower = DrivePIDController.PIDControl(-oneTile, robot.backRight.getCurrentPosition(), errorRange);
+        double backFrPower = DrivePIDController.PIDControl(-oneTile, robot.frontRight.getCurrentPosition(), errorRange);
+
+        if(tagOfInterest == null){
+            //default trajectory here if preferred
+            // FORWARD
+            robot.frontRight.setPower(forwardBlPower);
+            robot.frontLeft.setPower(forwardFlPower);
+            robot.backRight.setPower(forwardBrPower);
+            robot.backLeft.setPower(forwardFrPower);
+
+            robot.frontRight.setPower(0);
+            robot.frontLeft.setPower(0);
+            robot.backRight.setPower(0);
+            robot.backLeft.setPower(0);
+        }else if(tagOfInterest.id != LEFT){
+            //left trajectory
+            // FORWARD
+            robot.frontRight.setPower(forwardBlPower);
+            robot.frontLeft.setPower(forwardFlPower);
+            robot.backRight.setPower(forwardBrPower);
+            robot.backLeft.setPower(forwardFrPower);
+
+            robot.frontRight.setPower(0);
+            robot.frontLeft.setPower(0);
+            robot.backRight.setPower(0);
+            robot.backLeft.setPower(0);
+        }else if(tagOfInterest.id == MIDDLE){
+            //middle trajectory
+            // FORWARD
+            robot.frontRight.setPower(forwardBlPower);
+            robot.frontLeft.setPower(forwardFlPower);
+            robot.backRight.setPower(forwardBrPower);
+            robot.backLeft.setPower(forwardFrPower);
+
+            //left tile
+            robot.frontRight.setPower(rightBlPower);
+            robot.frontLeft.setPower(rightFlPower);
+            robot.backRight.setPower(rightBrPower);
+            robot.backLeft.setPower(rightFrPower);
+
+            robot.frontRight.setPower(0);
+            robot.frontLeft.setPower(0);
+            robot.backRight.setPower(0);
+            robot.backLeft.setPower(0);
+        }else{
+            //right trajectory
+
+            // FORWARD
+            robot.frontRight.setPower(forwardBlPower);
+            robot.frontLeft.setPower(forwardFlPower);
+            robot.backRight.setPower(forwardBrPower);
+            robot.backLeft.setPower(forwardFrPower);
+
+            //two left tile
+            robot.frontRight.setPower(rightBlPower);
+            robot.frontLeft.setPower(rightFlPower);
+            robot.backRight.setPower(rightBrPower);
+            robot.backLeft.setPower(rightFrPower);
             sleep(1000);
-            robot.strafeRight();
+            robot.frontRight.setPower(rightBlPower);
+            robot.frontLeft.setPower(rightFlPower);
+            robot.backRight.setPower(rightBrPower);
+            robot.backLeft.setPower(rightFrPower);
 
-            robot.powerZero();
+            robot.frontRight.setPower(0);
+            robot.frontLeft.setPower(0);
+            robot.backRight.setPower(0);
+            robot.backLeft.setPower(0);
 
             telemetry.addData("Robot", "RIGHT");
             telemetry.update();
         }
+
+
+        /* You wouldn't have this in your autonomous, this is just to prevent the sample from ending */
+        while (opModeIsActive()) {sleep(20);}
+    }
+
+    void tagToTelemetry(AprilTagDetection detection)
+    {
+        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
+        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
+        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 }
+    /*public void strafeLeft(){
+        robot.frontRight.setPower(leftBlPower);
+        robot.frontLeft.setPower(leftFlPower);
+        robot.backRight.setPower(leftBrPower);
+        robot.backLeft.setPower(leftFrPower);
+    }
+
+    public void strafeRight(){
+        robot.frontRight.setPower(rightBlPower);
+        robot.frontLeft.setPower(rightFlPower);
+        robot.backRight.setPower(rightBrPower);
+        robot.backLeft.setPower(rightFrPower);
+    }
+
+    public void moveForward(){
+        robot.frontRight.setPower(forwardBlPower);
+        robot.frontLeft.setPower(forwardFlPower);
+        robot.backRight.setPower(forwardBrPower);
+        robot.backLeft.setPower(forwardFrPower);
+    }
+
+    public void moveBackward(){
+        robot.frontRight.setPower(backBlPower);
+        robot.frontLeft.setPower(backFlPower);
+        robot.backRight.setPower(backBrPower);
+        robot.backLeft.setPower(backFrPower);
+    }
+
+    public void powerZero(){
+        robot.frontRight.setPower(0);
+        robot.frontLeft.setPower(0);
+        robot.backRight.setPower(0);
+        robot.backLeft.setPower(0);
+    }*/
+

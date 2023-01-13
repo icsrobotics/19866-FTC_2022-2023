@@ -51,8 +51,8 @@ public class Mecanum_POV extends LinearOpMode {
             if (gamepad2.a) robot.endServo.setPosition(0);
             //ARM STUFF
             double power = -gamepad2.left_stick_y;
-            robot.leftArmMotor.setPower(power * 1.1);
-            robot.rightArmMotor.setPower(power * 1.1);
+            robot.leftArmMotor.setPower(power);
+            robot.rightArmMotor.setPower(power);
 
 
             // WHATS GOIN ON. Telemetry tells you
