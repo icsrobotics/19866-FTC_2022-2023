@@ -174,10 +174,7 @@ public class DefaultAuto extends LinearOpMode {
             robot.frontRight.setPower(frPower);
             robot.frontLeft.setPower(flPower);
             robot.backRight.setPower(brPower);
-
             robot.backLeft.setPower(blPower);
-
-            sleep(500);
 
             //LEFT
             robot.frontRight.setPower(frPower);
@@ -206,8 +203,6 @@ public class DefaultAuto extends LinearOpMode {
             robot.frontLeft.setPower(flPower);
             robot.backRight.setPower(brPower);
             robot.backLeft.setPower(blPower);
-
-            sleep(500);
 
             //RIGHT
             robot.frontRight.setPower(-frPower);

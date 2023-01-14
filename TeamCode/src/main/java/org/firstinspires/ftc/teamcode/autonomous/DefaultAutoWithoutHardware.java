@@ -175,11 +175,12 @@ public class DefaultAutoWithoutHardware extends LinearOpMode {
 
         //Drivetrain values
         double oneTile = 1000;
+        double errorRange = 10;
 
-        double frPower = DrivePIDController.PIDControl(oneTile, frontRight.getCurrentPosition(), 10);
-        double flPower = DrivePIDController.PIDControl(oneTile, frontLeft.getCurrentPosition(), 10);
-        double brPower = DrivePIDController.PIDControl(oneTile, backRight.getCurrentPosition(), 10);
-        double blPower = DrivePIDController.PIDControl(oneTile, backLeft.getCurrentPosition(), 10);
+        double frPower = DrivePIDController.PIDControl(oneTile, frontRight.getCurrentPosition(), errorRange);
+        double flPower = DrivePIDController.PIDControl(oneTile, frontLeft.getCurrentPosition(), errorRange);
+        double brPower = DrivePIDController.PIDControl(oneTile, backRight.getCurrentPosition(), errorRange);
+        double blPower = DrivePIDController.PIDControl(oneTile, backLeft.getCurrentPosition(), errorRange);
 
         if(tagOfInterest == null) {
             //default trajectory here if preferred
@@ -193,13 +194,10 @@ public class DefaultAutoWithoutHardware extends LinearOpMode {
             //left trajectory - 1
 
             // FORWARD
-            frontRight.setPower(frPower);
-            frontLeft.setPower(flPower);
-            backRight.setPower(brPower);
-
-            backLeft.setPower(blPower);
-
-            sleep(500);
+            robot.frontRight.setPower(frPower);
+            robot.frontLeft.setPower(flPower);
+            robot.backRight.setPower(brPower);
+            robot.backLeft.setPower(blPower);
 
             //LEFT
             frontRight.setPower(frPower);
@@ -228,8 +226,6 @@ public class DefaultAutoWithoutHardware extends LinearOpMode {
             frontLeft.setPower(flPower);
             backRight.setPower(brPower);
             backLeft.setPower(blPower);
-
-            sleep(500);
 
             //RIGHT
             frontRight.setPower(-frPower);
