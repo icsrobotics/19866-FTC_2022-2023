@@ -25,7 +25,7 @@ public class DefaultAutoWithoutHardware extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
     RobotHardware robot = new RobotHardware(this);
-    MyPIDController DrivePIDController = new MyPIDController(0.07, 0.05, 0.01);
+    MyPIDController DrivePIDController = new MyPIDController(0.05, 0, 0); //0.07, 0.05, 0.01
 
     // Drive Motors. Ports
     public DcMotorEx frontLeft = null;
@@ -159,7 +159,6 @@ public class DefaultAutoWithoutHardware extends LinearOpMode {
             telemetry.update();
         }
 
-        init();
         /* Actually do something useful */
 
         // GAMEPLAN!!
@@ -177,27 +176,36 @@ public class DefaultAutoWithoutHardware extends LinearOpMode {
         double oneTile = 1000;
         double errorRange = 10;
 
-        double frPower = DrivePIDController.PIDControl(oneTile, frontRight.getCurrentPosition(), errorRange);
-        double flPower = DrivePIDController.PIDControl(oneTile, frontLeft.getCurrentPosition(), errorRange);
-        double brPower = DrivePIDController.PIDControl(oneTile, backRight.getCurrentPosition(), errorRange);
-        double blPower = DrivePIDController.PIDControl(oneTile, backLeft.getCurrentPosition(), errorRange);
+        double frPower = 0.4;
+        double flPower = 0.4;
+        double brPower = 0.4;
+        double blPower = 0.4;
 
         if(tagOfInterest == null) {
             //default trajectory here if preferred
             // FORWARD
-            frontRight.setPower(frPower);
-            frontLeft.setPower(flPower);
-            backRight.setPower(brPower);
-            backLeft.setPower(blPower);
+            frontRight.setPower(-frPower);
+            frontLeft.setPower(-flPower);
+            backRight.setPower(-brPower);
+            backLeft.setPower(-blPower);
 
-        } else if(tagOfInterest.id == LEFT) {
+            sleep(2000);
+
+            frontRight.setPower(0);
+            frontLeft.setPower(0);
+            backRight.setPower(0);
+            backLeft.setPower(0);
+
+        } else if(tagOfInterest.id == RIGHT) {
             //left trajectory - 1
 
             // FORWARD
-            robot.frontRight.setPower(frPower);
-            robot.frontLeft.setPower(flPower);
-            robot.backRight.setPower(brPower);
-            robot.backLeft.setPower(blPower);
+            frontRight.setPower(-frPower);
+            frontLeft.setPower(-flPower);
+            backRight.setPower(-brPower);
+            backLeft.setPower(-blPower);
+
+            sleep(2000);
 
             //LEFT
             frontRight.setPower(frPower);
@@ -205,16 +213,30 @@ public class DefaultAutoWithoutHardware extends LinearOpMode {
             backRight.setPower(-brPower);
             backLeft.setPower(blPower);
 
+            sleep(1670);
+
+            frontRight.setPower(0);
+            frontLeft.setPower(0);
+            backRight.setPower(0);
+            backLeft.setPower(0);
+
             telemetry.addData("Robot", "LEFT");
             telemetry.update();
         } else if(tagOfInterest.id == MIDDLE) {
             //middle trajectory - 2
 
             // FORWARD
-            frontRight.setPower(frPower);
-            frontLeft.setPower(flPower);
-            backRight.setPower(brPower);
-            backLeft.setPower(blPower);
+            frontRight.setPower(-frPower);
+            frontLeft.setPower(-flPower);
+            backRight.setPower(-brPower);
+            backLeft.setPower(-blPower);
+
+            sleep(2000);
+
+            frontRight.setPower(0);
+            frontLeft.setPower(0);
+            backRight.setPower(0);
+            backLeft.setPower(0);
 
             telemetry.addData("Robot", "MIDDLE");
             telemetry.update();
@@ -222,16 +244,30 @@ public class DefaultAutoWithoutHardware extends LinearOpMode {
             //right trajectory - 3
 
             // FORWARD
-            frontRight.setPower(frPower);
-            frontLeft.setPower(flPower);
-            backRight.setPower(brPower);
-            backLeft.setPower(blPower);
+            frontRight.setPower(-frPower);
+            frontLeft.setPower(-flPower);
+            backRight.setPower(-brPower);
+            backLeft.setPower(-blPower);
+
+            sleep(2000);
+
+            frontRight.setPower(0);
+            frontLeft.setPower(0);
+            backRight.setPower(0);
+            backLeft.setPower(0);
 
             //RIGHT
             frontRight.setPower(-frPower);
             frontLeft.setPower(flPower);
             backRight.setPower(brPower);
             backLeft.setPower(-blPower);
+
+            sleep(1670);
+
+            frontRight.setPower(0);
+            frontLeft.setPower(0);
+            backRight.setPower(0);
+            backLeft.setPower(0);
 
             telemetry.addData("Robot", "RIGHT");
             telemetry.update();

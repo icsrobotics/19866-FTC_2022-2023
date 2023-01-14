@@ -6,6 +6,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 import static com.qualcomm.robotcore.hardware.DcMotor.RunMode.RESET_ENCODERS;
 
 import com.acmerobotics.dashboard.FtcDashboard;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.acmerobotics.dashboard.config.Config;
 
@@ -23,13 +24,14 @@ import org.firstinspires.ftc.teamcode.MyPIDController;
 
 import java.util.ArrayList;
 
+@Disabled
 @Config
 @Autonomous(name = "Defualt Autonomous", group = "Linear Opmode")
 public class DefaultAuto extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
     RobotHardware robot = new RobotHardware(this);
-    MyPIDController DrivePIDController = new MyPIDController(0.07, 0.05, 0.01);
+    MyPIDController DrivePIDController = new MyPIDController(0.05, 0, 0); //0.07, 0.05, 0.01
 
     static final double FEET_PER_METER = 3.28084;
 
@@ -153,29 +155,28 @@ public class DefaultAuto extends LinearOpMode {
 
         //Drivetrain values
         double oneTile = 1000;
+        double errorRange = 10;
 
-        double frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 10);
-        double flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 10);
-        double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 10);
-        double blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 10);
+        double frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), errorRange);
+        double flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), errorRange);
+        double brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), errorRange);
+        double blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), errorRange);
 
         if(tagOfInterest == null) {
             //default trajectory here if preferred
             // FORWARD
-            robot.frontRight.setPower(frPower);
-            robot.frontLeft.setPower(flPower);
-            robot.backRight.setPower(brPower);
-            robot.backLeft.setPower(blPower);
-
+            robot.frontRight.setPower(-frPower);
+            robot.frontLeft.setPower(-flPower);
+            robot.backRight.setPower(-brPower);
+            robot.backLeft.setPower(-blPower);
         } else if(tagOfInterest.id == LEFT) {
             //left trajectory - 1
 
             // FORWARD
-            robot.frontRight.setPower(frPower);
-            robot.frontLeft.setPower(flPower);
-            robot.backRight.setPower(brPower);
-            robot.backLeft.setPower(blPower);
-
+            robot.frontRight.setPower(-frPower);
+            robot.frontLeft.setPower(-flPower);
+            robot.backRight.setPower(-brPower);
+            robot.backLeft.setPower(-blPower);
             //LEFT
             robot.frontRight.setPower(frPower);
             robot.frontLeft.setPower(-flPower);
@@ -188,10 +189,10 @@ public class DefaultAuto extends LinearOpMode {
             //middle trajectory - 2
 
             // FORWARD
-            robot.frontRight.setPower(frPower);
-            robot.frontLeft.setPower(flPower);
-            robot.backRight.setPower(brPower);
-            robot.backLeft.setPower(blPower);
+            robot.frontRight.setPower(-frPower);
+            robot.frontLeft.setPower(-flPower);
+            robot.backRight.setPower(-brPower);
+            robot.backLeft.setPower(-blPower);
 
             telemetry.addData("Robot", "MIDDLE");
             telemetry.update();
@@ -199,10 +200,10 @@ public class DefaultAuto extends LinearOpMode {
             //right trajectory - 3
 
             // FORWARD
-            robot.frontRight.setPower(frPower);
-            robot.frontLeft.setPower(flPower);
-            robot.backRight.setPower(brPower);
-            robot.backLeft.setPower(blPower);
+            robot.frontRight.setPower(-frPower);
+            robot.frontLeft.setPower(-flPower);
+            robot.backRight.setPower(-brPower);
+            robot.backLeft.setPower(-blPower);
 
             //RIGHT
             robot.frontRight.setPower(-frPower);

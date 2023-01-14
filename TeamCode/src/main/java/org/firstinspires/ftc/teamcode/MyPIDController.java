@@ -35,9 +35,7 @@ public class MyPIDController {
         lastIntegral = integral;
 
         double output = (Kp * error) + (Kd * derivative) + (Ki * integral);
-        if (error <= error_range){
-            output = 0;
-        }
+        if (error <= error_range) output = 0;
 
         return output;
     }
