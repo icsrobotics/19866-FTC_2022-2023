@@ -2,11 +2,12 @@ package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Config
-@TeleOp(name = "Sandbox", group = "Linear Opmode")
+@Autonomous(name = "Move Forward", group = "Linear Opmode")
 public class Sandbox extends LinearOpMode {
     int oneTile = 1075;
 
@@ -27,10 +28,10 @@ public class Sandbox extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 10);
-            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 10);
-            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 10);
-            blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 10);
+            frPower = DrivePIDController.PIDControl(oneTile, robot.frontRight.getCurrentPosition(), 5);
+            flPower = DrivePIDController.PIDControl(oneTile, robot.frontLeft.getCurrentPosition(), 5);
+            brPower = DrivePIDController.PIDControl(oneTile, robot.backRight.getCurrentPosition(), 5);
+            blPower = DrivePIDController.PIDControl(oneTile, robot.backLeft.getCurrentPosition(), 5);
 
             robot.frontRight.setPower(-frPower);
             robot.frontLeft.setPower(-flPower);
