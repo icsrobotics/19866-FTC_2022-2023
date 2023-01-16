@@ -39,12 +39,12 @@ public class Mecanum_POV extends LinearOpMode {
             robot.backRight.setPower(v4 * SOME_VARIABLE);
 
             // Servo STUFF
-/*            if (gamepad2.y && !robot.intakeToggle) {
+            if (gamepad2.y && !robot.intakeToggle) {
                 if (robot.endServo.getPosition() == 0.5) robot.endServo.setPosition(1.0);
                 else robot.endServo.setPosition(0.5);
                 robot.intakeToggle = true;
 
-            } else if (!gamepad2.y) robot.intakeToggle = false;*/
+            } else if (!gamepad2.y) robot.intakeToggle = false;
 
             // Optional servo stuff (debugging methinks?)
             if (gamepad2.b) robot.endServo.setPosition(1.0);
