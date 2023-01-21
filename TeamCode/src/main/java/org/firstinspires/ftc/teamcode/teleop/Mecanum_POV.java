@@ -61,12 +61,8 @@ public class Mecanum_POV extends LinearOpMode {
             telemetry.addData("Front Left Motor", robot.frontLeft.getCurrentPosition());
             telemetry.addData("Front Right Motor", robot.frontRight.getCurrentPosition());
 
-            telemetry.addLine();
-
             telemetry.addData("Left Arm Motor", robot.rightArmMotor.getCurrentPosition());
             telemetry.addData("Right Arm Motor", robot.leftArmMotor.getCurrentPosition());
-
-            telemetry.addLine();
 
             telemetry.addData("Servo Position", robot.endServo.getPosition());
 

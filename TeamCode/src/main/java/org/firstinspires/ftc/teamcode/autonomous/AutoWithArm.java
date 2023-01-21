@@ -2,21 +2,30 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.MyPIDController;
+import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
 
+@Disabled
 @Config
-@Autonomous(name = "Autonomous With Cone", group = "Linear Opmode")
+@Autonomous(name = "Autonomous With Arm", group = "Linear Opmode")
 public class AutoWithArm extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -42,6 +51,14 @@ public class AutoWithArm extends LinearOpMode {
 
     AprilTagDetection tagOfInterest = null;
 
+    //Arm Motors and Servo
+    // ARM STUFF
+    DcMotor leftArm = null;
+    DcMotor rightArm = null;
+
+    Servo endServo = null;
+
+
     @Override
     public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -58,6 +75,67 @@ public class AutoWithArm extends LinearOpMode {
             @Override public void onOpened() {camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT); }
             @Override public void onError(int errorCode) {/* God help you if there is an error here. */}
         });
+
+        //Roadrunner stuff
+        double oneTile = 18; // 18 in for one tile
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        Pose2d startpose = new Pose2d(0, 0, 0);
+
+        //Robot Hardware
+        leftArm = hardwareMap.dcMotor.get("Left_Arm");
+        rightArm = hardwareMap.dcMotor.get("Right_Arm");
+
+        leftArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightArm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        endServo = hardwareMap.servo.get("End_Servo");
+
+        // PID Controller
+        MyPIDController pidController = new MyPIDController(0.07, 0, 0);
+        int position = 2450;
+        int errorRange = 10;
+
+        double leftPower = pidController.PIDControl(position, leftArm.getCurrentPosition(), errorRange);
+        double rightPower = pidController.PIDControl(position, rightArm.getCurrentPosition(), errorRange);
+
+        drive.setPoseEstimate(startpose);
+
+        TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(startpose)
+                .forward(oneTile)
+                .addDisplacementMarker(() -> {
+                    // Run arm here!
+                    leftArm.setPower(leftPower);
+                    rightArm.setPower(rightPower);
+                })
+                .waitSeconds(1)
+                .strafeLeft(oneTile)
+                .build();
+
+        TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(startpose)
+                .forward(oneTile)
+                .addDisplacementMarker(() -> {
+                    // Run arm here!
+                    leftArm.setPower(leftPower);
+                    rightArm.setPower(rightPower);
+                })
+                .waitSeconds(1)
+                .build();
+
+        TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(startpose)
+                .forward(oneTile)
+                .addDisplacementMarker(() -> {
+                    // Run arm here!
+                    leftArm.setPower(leftPower);
+                    rightArm.setPower(rightPower);
+                })
+                .waitSeconds(1)
+                .strafeRight(oneTile)
+                .build();
+
+
 
         /*
          * The INIT-loop:
@@ -121,12 +199,28 @@ public class AutoWithArm extends LinearOpMode {
         /* Actually do something useful */
         if(tagOfInterest == null){
             //default trajectory here if preferred
+            drive.followTrajectorySequence(trajSeq2);
+
+            telemetry.addData("Robot Position: ", "Not found :(");
+            telemetry.update();
         } else if(tagOfInterest.id == LEFT){
             //left trajectory
+            drive.followTrajectorySequence(trajSeq1);
+
+            telemetry.addData("Robot Position: ", "Left");
+            telemetry.update();
         } else if(tagOfInterest.id == MIDDLE){
             //middle trajectory
+            drive.followTrajectorySequence(trajSeq2);
+
+            telemetry.addData("Robot Position: ", "Middle");
+            telemetry.update();
         } else{
             //right trajectory
+            drive.followTrajectorySequence(trajSeq3);
+
+            telemetry.addData("Robot Position: ", "Right");
+            telemetry.update();
         }
     }
 

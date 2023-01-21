@@ -13,9 +13,10 @@ public class MyPIDController {
 
     private double lastError = 0;
     private double lastIntegral = 0;
+    private double previousTime = 0;
 
     ElapsedTime timer = new ElapsedTime();
-    double currentTime = timer.seconds();;
+
 
     public MyPIDController (double P, double I, double D) {
         this.Kp = P;
@@ -27,12 +28,15 @@ public class MyPIDController {
     // state = what the motor or servo is outputting usually acsessed by .getwhatever()
     public double PIDControl (double reference, double state, double error_range) {
         error = reference - state;
+        double currentTime = timer.seconds();
+
         double derivative = (error - lastError) / currentTime;
-        double integral =  (error + lastIntegral) * currentTime;
+        double integral =  (error + lastIntegral) * currentTime - previousTime;
 
         // Setting all of the stuff after power or whatever applied
         lastError = error;
         lastIntegral = integral;
+        previousTime = currentTime;
 
         double output = (Kp * error) + (Kd * derivative) + (Ki * integral);
         if (error <= error_range) output = 0;

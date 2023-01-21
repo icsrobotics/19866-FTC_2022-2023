@@ -2,21 +2,24 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.RobotHardware;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
 
 @Config
-@Autonomous(name = "Autonomous With Cone", group = "Linear Opmode")
+@Autonomous(name = "Autonomous Only Parks", group = "Linear Opmode")
 public class AutoOnlyPark extends LinearOpMode {
     OpenCvCamera camera;
     AprilTagDetectionPipeline aprilTagDetectionPipeline;
@@ -58,6 +61,32 @@ public class AutoOnlyPark extends LinearOpMode {
             @Override public void onOpened() {camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT); }
             @Override public void onError(int errorCode) {/* God help you if there is an error here. */}
         });
+
+        //Roadrunner stuff
+        double oneTile = 18; // 18 in for one tile
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        Pose2d startpose = new Pose2d(0, 0, 0);
+
+        drive.setPoseEstimate(startpose);
+
+        TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(startpose)
+                .forward(oneTile)
+                .waitSeconds(1)
+                .strafeLeft(oneTile)
+                .build();
+
+        TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(startpose)
+                .forward(oneTile)
+                .waitSeconds(1)
+                .build();
+
+        TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(startpose)
+                .forward(oneTile)
+                .waitSeconds(1)
+                .strafeRight(oneTile)
+                .build();
+
+
 
         /*
          * The INIT-loop:
@@ -121,12 +150,28 @@ public class AutoOnlyPark extends LinearOpMode {
         /* Actually do something useful */
         if(tagOfInterest == null){
             //default trajectory here if preferred
+            drive.followTrajectorySequence(trajSeq2);
+
+            telemetry.addData("Robot Position: ", "Not found :(");
+            telemetry.update();
         } else if(tagOfInterest.id == LEFT){
             //left trajectory
+            drive.followTrajectorySequence(trajSeq1);
+
+            telemetry.addData("Robot Position: ", "Left");
+            telemetry.update();
         } else if(tagOfInterest.id == MIDDLE){
             //middle trajectory
+            drive.followTrajectorySequence(trajSeq2);
+
+            telemetry.addData("Robot Position: ", "Middle");
+            telemetry.update();
         } else{
             //right trajectory
+            drive.followTrajectorySequence(trajSeq3);
+
+            telemetry.addData("Robot Position: ", "Right");
+            telemetry.update();
         }
     }
 
