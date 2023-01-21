@@ -27,7 +27,7 @@ public class RobotHardware {
 
     public Servo endServo = null;
 
-    BNO055IMU imu;
+    public BNO055IMU imu;
 
     // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
     public boolean intakeToggle = false;

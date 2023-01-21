@@ -70,9 +70,9 @@ public class AutoOnlyPark extends LinearOpMode {
         drive.setPoseEstimate(startpose);
 
         TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(startpose)
-                .back(oneTile)
+                .back(30)
                 .waitSeconds(1)
-                .strafeRight(30)
+                .strafeRight(35)
                 .build();
 
         TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(startpose)
@@ -81,9 +81,9 @@ public class AutoOnlyPark extends LinearOpMode {
                 .build();
 
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(startpose)
-                .back(oneTile)
+                .back(30)
                 .waitSeconds(1)
-                .strafeLeft(30)
+                .strafeLeft(35)
                 .build();
 
 
