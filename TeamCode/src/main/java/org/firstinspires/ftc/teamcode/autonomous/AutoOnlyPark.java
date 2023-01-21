@@ -63,27 +63,27 @@ public class AutoOnlyPark extends LinearOpMode {
         });
 
         //Roadrunner stuff
-        double oneTile = 18; // 18 in for one tile
+        double oneTile = 24.5; // 18 in for one tile
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         Pose2d startpose = new Pose2d(0, 0, 0);
 
         drive.setPoseEstimate(startpose);
 
         TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(startpose)
-                .forward(oneTile)
+                .back(oneTile)
                 .waitSeconds(1)
-                .strafeLeft(oneTile)
+                .strafeRight(30)
                 .build();
 
         TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(startpose)
-                .forward(oneTile)
+                .back(oneTile)
                 .waitSeconds(1)
                 .build();
 
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(startpose)
-                .forward(oneTile)
+                .back(oneTile)
                 .waitSeconds(1)
-                .strafeRight(oneTile)
+                .strafeLeft(30)
                 .build();
 
 
