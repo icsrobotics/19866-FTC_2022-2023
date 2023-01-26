@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
  * These are not the only parameters; some are located in the localizer classes, drive base classes,
  * and op modes themselves.
  */
-@Disabled
+
 @Config
 public class DriveConstants {
 
@@ -57,9 +57,9 @@ public class DriveConstants {
      * motor encoders or have elected not to use them for velocity control, these values should be
      * empirically tuned.
      */
-    public static double kA = 0.002;
-    public static double kStatic = 0.0022;
-    public static double kV = 0.0375;
+    public static double kA = 0.0028;
+    public static double kStatic = 0.015;
+    public static double kV = 0.01742;
 
     /*
      * These values are used to generate the trajectories for you robot. To ensure proper operation,
