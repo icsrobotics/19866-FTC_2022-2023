@@ -5,6 +5,9 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.robot.Robot;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -45,6 +48,12 @@ public class AutoOnlyPark extends LinearOpMode {
 
     AprilTagDetection tagOfInterest = null;
 
+    // Arm Motors
+    public DcMotor leftArmMotor = null;
+    public DcMotor rightArmMotor = null;
+
+    public Servo endServo = null;
+
     @Override
     public void runOpMode() {
         FtcDashboard dashboard = FtcDashboard.getInstance();
@@ -62,6 +71,19 @@ public class AutoOnlyPark extends LinearOpMode {
             @Override public void onError(int errorCode) {/* God help you if there is an error here. */}
         });
 
+        // ARM STUFF
+        leftArmMotor = hardwareMap.dcMotor.get("Left_Arm");
+        rightArmMotor = hardwareMap.dcMotor.get("Right_Arm");
+
+        leftArmMotor.setDirection(DcMotor.Direction.REVERSE);
+        rightArmMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        //SERVO STUFF
+        endServo = hardwareMap.servo.get("End_Servo");
+
         //Roadrunner stuff
         double oneTile = 24.5; // 18 in for one tile
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -70,20 +92,23 @@ public class AutoOnlyPark extends LinearOpMode {
         drive.setPoseEstimate(startpose);
 
         TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(startpose)
-                .strafeRight(30)
+                .addDisplacementMarker(() -> {
+
+                })
+                .strafeRight(60)
                 .waitSeconds(3)
                 .strafeLeft(5)
                 .forward(10)
                 .build();
 
         TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(startpose)
-                .strafeRight(30)
+                .strafeRight(60)
                 .waitSeconds(3)
                 .strafeLeft(5)
                 .build();
 
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(startpose)
-                .strafeRight(30)
+                .strafeRight(60)
                 .waitSeconds(3)
                 .strafeLeft(5)
                 .back(10)
