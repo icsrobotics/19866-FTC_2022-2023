@@ -71,15 +71,23 @@ public class AutoOnlyPark extends LinearOpMode {
             @Override public void onError(int errorCode) {/* God help you if there is an error here. */}
         });
 
-        // ARM STUFF
         leftArmMotor = hardwareMap.dcMotor.get("Left_Arm");
         rightArmMotor = hardwareMap.dcMotor.get("Right_Arm");
 
-        leftArmMotor.setDirection(DcMotor.Direction.REVERSE);
-        rightArmMotor.setDirection(DcMotor.Direction.FORWARD);
+        // ARM STUFF
+        leftArmMotor.setDirection(DcMotor.Direction.FORWARD);
+        rightArmMotor.setDirection(DcMotor.Direction.REVERSE);
 
+        // reset encoder counts kept by motors.
         leftArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         rightArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        // set motors to run to target encoder position and stop with brakes on.
+        leftArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rightArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        leftArmMotor.setTargetPosition(1800);
+        rightArmMotor.setTargetPosition(1800);
 
         //SERVO STUFF
         endServo = hardwareMap.servo.get("End_Servo");
@@ -93,23 +101,50 @@ public class AutoOnlyPark extends LinearOpMode {
 
         TrajectorySequence trajSeq1 = drive.trajectorySequenceBuilder(startpose)
                 .addDisplacementMarker(() -> {
-
+                    leftArmMotor.setPower(0.4);
+                    rightArmMotor.setPower(0.4);
                 })
+                .waitSeconds(2)
                 .strafeRight(60)
                 .waitSeconds(3)
+                .forward(1)
+                .addDisplacementMarker(() -> {
+                    endServo.setPosition(0);
+                })
+                .back(10)
                 .strafeLeft(5)
                 .forward(10)
                 .build();
 
         TrajectorySequence trajSeq2 = drive.trajectorySequenceBuilder(startpose)
+                .addDisplacementMarker(() -> {
+                    leftArmMotor.setPower(0.4);
+                    rightArmMotor.setPower(0.4);
+                })
+                .waitSeconds(2)
                 .strafeRight(60)
                 .waitSeconds(3)
+                .forward(1)
+                .addDisplacementMarker(() -> {
+                    endServo.setPosition(0);
+                })
+                .back(10)
                 .strafeLeft(5)
                 .build();
 
         TrajectorySequence trajSeq3 = drive.trajectorySequenceBuilder(startpose)
+                .addDisplacementMarker(() -> {
+                    leftArmMotor.setPower(0.4);
+                    rightArmMotor.setPower(0.4);
+                })
+                .waitSeconds(2)
                 .strafeRight(60)
                 .waitSeconds(3)
+                .forward(1)
+                .addDisplacementMarker(() -> {
+                    endServo.setPosition(0);
+                })
+                .back(10)
                 .strafeLeft(5)
                 .back(10)
                 .build();
